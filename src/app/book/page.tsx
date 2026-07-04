@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "Book Now",
   description:
     "Book in 60 seconds, day or night. Call or text (647) 340-7187 — Esmi answers 24/7 in English and Spanish. No deposit. Saturdays walk-in only.",
+  alternates: {
+    canonical: "/book",
+  },
 };
 
 const STEPS = [

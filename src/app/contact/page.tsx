@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { site, locations } from "@/data/site";
+import { locationsJsonLd } from "@/lib/jsonld";
 import OpenBadge from "@/components/OpenBadge";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
@@ -10,49 +11,10 @@ export const metadata: Metadata = {
   title: "Contact & Locations",
   description:
     "Two Toronto locations: 2851 Weston Rd and 2266 Keele St, North York. Hours, directions, free parking. Call or text (647) 340-7187 — answered 24/7 in English & Spanish.",
-};
-
-const DAY_NAMES = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-
-function toIsoTime(decimalHour: number): string {
-  const h = Math.floor(decimalHour);
-  const m = Math.round((decimalHour - h) * 60);
-  return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
-}
-
-const locationsJsonLd = locations.map((loc) => ({
-  "@context": "https://schema.org",
-  "@type": "Barbershop",
-  name: `${site.legalName} — ${loc.name}`,
-  image: `${site.url}${loc.photo}`,
-  url: `${site.url}/contact`,
-  telephone: "+16473407187",
-  email: site.email,
-  priceRange: "$20–$70",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: loc.address,
-    addressLocality: loc.city.replace(", ON", ""),
-    addressRegion: "ON",
-    postalCode: loc.postalCode,
-    addressCountry: "CA",
+  alternates: {
+    canonical: "/contact",
   },
-  openingHoursSpecification: loc.weekHours.map((h, day) => ({
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: DAY_NAMES[day],
-    opens: toIsoTime(h.open),
-    closes: toIsoTime(h.close),
-  })),
-  sameAs: [site.instagram.url, site.facebook.url],
-}));
+};
 
 export default function ContactPage() {
   return (

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const user = process.env.PREVIEW_USER;
   const pass = process.env.PREVIEW_PASSWORD;
 
@@ -13,12 +13,16 @@ export function middleware(request: NextRequest) {
   if (authHeader) {
     const [scheme, encoded] = authHeader.split(" ");
     if (scheme === "Basic" && encoded) {
-      const decoded = atob(encoded);
-      const separatorIndex = decoded.indexOf(":");
-      const suppliedUser = decoded.slice(0, separatorIndex);
-      const suppliedPass = decoded.slice(separatorIndex + 1);
-      if (suppliedUser === user && suppliedPass === pass) {
-        return NextResponse.next();
+      try {
+        const decoded = atob(encoded);
+        const separatorIndex = decoded.indexOf(":");
+        const suppliedUser = decoded.slice(0, separatorIndex);
+        const suppliedPass = decoded.slice(separatorIndex + 1);
+        if (suppliedUser === user && suppliedPass === pass) {
+          return NextResponse.next();
+        }
+      } catch {
+        // malformed base64 falls through to the 401 below
       }
     }
   }

@@ -30,8 +30,14 @@ function CountUp({ to, suffix, start }: { to: number; suffix: string; start: boo
 
   return (
     <span className="display text-5xl text-gold sm:text-6xl">
-      {display}
-      <span className="text-3xl sm:text-4xl">{suffix}</span>
+      <span aria-hidden="true">
+        {display}
+        <span className="text-3xl sm:text-4xl">{suffix}</span>
+      </span>
+      <span className="sr-only">
+        {to}
+        {suffix}
+      </span>
     </span>
   );
 }

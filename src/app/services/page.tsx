@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: "Services & Pricing",
   description:
     "Haircuts, fades, beard trims, kids' cuts and the VIP Package. Clear pricing for both Toronto locations — Weston Rd and Keele St. Walk-ins welcome.",
+  alternates: {
+    canonical: "/services",
+  },
 };
 
 const faqJsonLd = {

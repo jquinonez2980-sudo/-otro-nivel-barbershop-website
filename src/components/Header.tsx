@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { site } from "@/data/site";
 
 const NAV = [
@@ -18,6 +18,19 @@ export default function Header() {
   const [openedAt, setOpenedAt] = useState<string | null>(null);
   const open = openedAt === pathname;
   const setOpen = (next: boolean) => setOpenedAt(next ? pathname : null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpenedAt(null);
+        menuButtonRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   // Transparent while resting on the hero, glass once the page moves.
   const [scrolled, setScrolled] = useState(false);
@@ -70,6 +83,7 @@ export default function Header() {
         </nav>
 
         <button
+          ref={menuButtonRef}
           type="button"
           onClick={() => setOpen(!open)}
           aria-expanded={open}

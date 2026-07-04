@@ -13,12 +13,29 @@ export default function PricingTabs() {
   const baseId = useId();
   const reduceMotion = useReducedMotion();
 
+  function focusTab(index: number) {
+    setActive(index);
+    document.getElementById(`${baseId}-tab-${index}`)?.focus();
+  }
+
   function onKeyDown(e: React.KeyboardEvent) {
-    if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-      e.preventDefault();
-      const next = (active + 1) % locations.length;
-      setActive(next);
-      document.getElementById(`${baseId}-tab-${next}`)?.focus();
+    switch (e.key) {
+      case "ArrowRight":
+        e.preventDefault();
+        focusTab((active + 1) % locations.length);
+        break;
+      case "ArrowLeft":
+        e.preventDefault();
+        focusTab((active - 1 + locations.length) % locations.length);
+        break;
+      case "Home":
+        e.preventDefault();
+        focusTab(0);
+        break;
+      case "End":
+        e.preventDefault();
+        focusTab(locations.length - 1);
+        break;
     }
   }
 

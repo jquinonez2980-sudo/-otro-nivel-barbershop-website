@@ -26,6 +26,9 @@ export const metadata: Metadata = {
   },
   description:
     "Premium Latino barbershop with two Toronto locations — Weston Rd & Keele St. Expert fades, beard trims, kids' cuts. Walk-ins always welcome. English & Spanish.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: `${site.name} — ${site.tagline}`,
     description:
