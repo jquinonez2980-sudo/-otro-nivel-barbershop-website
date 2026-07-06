@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: site.name,
     locale: "en_CA",
     type: "website",
-    images: [{ url: "/media/hero-poster.jpg", width: 1280, height: 720 }],
+    images: [{ url: "/images/og-social.jpg", width: 1200, height: 1200 }],
   },
 };
 

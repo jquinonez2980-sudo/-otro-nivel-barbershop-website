@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-4">
         <div>
           <Image
-            src="/images/logo-circle.png"
+            src="/images/logo-circle.webp"
             alt={`${site.legalName} logo`}
             width={96}
             height={96}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/data/site";
@@ -52,12 +53,22 @@ export default function Header() {
     >
       <div className="tricolor h-0.5 w-full" aria-hidden="true" />
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="group flex items-baseline gap-2" aria-label={`${site.legalName} — home`}>
-          <span className="display text-xl text-cream transition-colors group-hover:text-gold">
-            Otro Nivel
-          </span>
-          <span className="hidden text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-muted sm:inline">
-            Barber Shop
+        <Link href="/" className="group flex items-center gap-2.5" aria-label={`${site.legalName} — home`}>
+          <Image
+            src="/images/nav-badge@2x.png"
+            alt=""
+            width={40}
+            height={40}
+            className="h-10 w-10"
+            priority
+          />
+          <span className="flex items-baseline gap-2">
+            <span className="display text-xl text-cream transition-colors group-hover:text-gold">
+              Otro Nivel
+            </span>
+            <span className="hidden text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-muted sm:inline">
+              Barber Shop
+            </span>
           </span>
         </Link>
 
