@@ -5,7 +5,7 @@ import { site, locations } from "@/data/site";
 export default function Footer() {
   return (
     <footer className="border-t border-edge bg-surface">
-      <div className="tricolor h-0.5 w-full" aria-hidden="true" />
+      <div className="brand-accent h-0.5 w-full" aria-hidden="true" />
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-4">
         <div>
           <Image

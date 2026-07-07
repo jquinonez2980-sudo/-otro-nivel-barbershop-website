@@ -1,4 +1,4 @@
-/** Consistent section header: blue eyebrow, display title, optional Spanish echo, tricolor keyline. */
+/** Consistent section header: blue eyebrow, display title, optional Spanish echo, brand-accent keyline. */
 export default function SectionHeading({
   eyebrow,
   title,
@@ -24,7 +24,7 @@ export default function SectionHeading({
         </p>
       )}
       <div
-        className={`tricolor mt-4 h-1 w-20 rounded-full ${center ? "mx-auto" : ""}`}
+        className={`brand-accent mt-4 h-1 w-20 rounded-full ${center ? "mx-auto" : ""}`}
         aria-hidden="true"
       />
     </div>

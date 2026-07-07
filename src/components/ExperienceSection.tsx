@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import DominicanFlag from "@/components/DominicanFlag";
 
 /**
  * Editorial statement over a slow-parallax full-bleed interior shot,
@@ -57,7 +58,7 @@ export default function ExperienceSection() {
         >
           Built like nowhere else in the city
         </h2>
-        <div className="tricolor mt-6 h-1 w-24 rounded-full" aria-hidden="true" />
+        <div className="brand-accent mt-6 h-1 w-24 rounded-full" aria-hidden="true" />
         <div className="mt-8 grid max-w-4xl gap-8 sm:grid-cols-2">
           <p className="text-lg leading-relaxed text-cream/85">
             Hexagon lights overhead, custom epoxy floors underfoot, gold chairs
@@ -67,10 +68,13 @@ export default function ExperienceSection() {
             </span>{" "}
             — and we built both shops to prove it.
           </p>
-          <p className="text-lg leading-relaxed text-cream/85">
-            Dominican barbering runs on craft and community. Music on, chairs
-            full, familia in the lounge — every cut finished to the line before
-            you leave the chair.
+          <p className="flex items-start gap-3 text-lg leading-relaxed text-cream/85">
+            <DominicanFlag size={30} className="mt-1.5 shrink-0 rounded-[2px]" />
+            <span>
+              Dominican barbering runs on craft and community. Music on,
+              chairs full, familia in the lounge — every cut finished to the
+              line before you leave the chair.
+            </span>
           </p>
         </div>
       </div>

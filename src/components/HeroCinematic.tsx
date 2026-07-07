@@ -9,6 +9,7 @@ import {
   useTransform,
 } from "motion/react";
 import { site } from "@/data/site";
+import DominicanFlag from "@/components/DominicanFlag";
 
 const HEADLINE = ["OTRO", "NIVEL"];
 
@@ -75,8 +76,9 @@ export default function HeroCinematic() {
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-gold"
+          className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.35em] text-gold"
         >
+          <DominicanFlag size={20} title="Dominican-owned" className="rounded-[1px]" />
           Toronto · Weston Rd &amp; Keele St · Est. on another level
         </motion.p>
 
