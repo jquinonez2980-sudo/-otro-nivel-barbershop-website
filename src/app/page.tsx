@@ -10,6 +10,7 @@ import HeroCinematic from "@/components/HeroCinematic";
 import Marquee from "@/components/Marquee";
 import ExperienceSection from "@/components/ExperienceSection";
 import WorkGallery, { type WorkPhoto } from "@/components/WorkGallery";
+import VideoReel from "@/components/VideoReel";
 import StatsStrip from "@/components/StatsStrip";
 import ShopsShowcase from "@/components/ShopsShowcase";
 
@@ -129,8 +130,25 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ——— YouTube reel ——— */}
+      <section
+        aria-label="Videos from our YouTube channel"
+        className="mx-auto max-w-6xl px-4 py-20 sm:px-6"
+      >
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <SectionHeading
+              eyebrow={`On YouTube · ${site.youtube.subscribers} subscribers`}
+              title="Watch the work in motion"
+              titleEs="Mira el trabajo en acción"
+            />
+          </div>
+        </Reveal>
+        <VideoReel />
+      </section>
+
       {/* ——— Numbers ——— */}
-      <section aria-label="Otro Nivel by the numbers" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <section aria-label="Otro Nivel by the numbers" className="mx-auto max-w-6xl border-t border-edge px-4 py-20 sm:px-6">
         <Reveal>
           <StatsStrip />
         </Reveal>

@@ -92,6 +92,18 @@ export default function Footer() {
                 />
               </svg>
             </a>
+            <a
+              href={site.youtube.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`YouTube — ${site.youtube.handle}`}
+              className="transition-colors hover:text-cream"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="2.5" y="6" width="19" height="12.5" rx="3" stroke="currentColor" strokeWidth="1.8" />
+                <path d="M10.5 9.75v5l4.5-2.5-4.5-2.5Z" fill="currentColor" />
+              </svg>
+            </a>
           </div>
           <p>
             © {new Date().getFullYear()} {site.legalName}. All rights reserved.

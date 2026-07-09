@@ -68,6 +68,11 @@ export const site = {
     label: "A Otro Nivel Barbershop",
     url: "https://www.facebook.com/a.otro.nivel.barbershop",
   },
+  youtube: {
+    handle: "@AOtroNivelBarbershop",
+    url: "https://www.youtube.com/@AOtroNivelBarbershop",
+    subscribers: "22k+",
+  },
   esmi: {
     name: "Esmi",
     blurb:
@@ -236,5 +241,31 @@ export const faqs = [
   {
     q: "Which location should I go to?",
     a: "Whichever is closer! Weston Road (Toronto) and Keele Street (North York) both take walk-ins every day. Hours and some prices differ slightly — check the tables above.",
+  },
+];
+
+/** Hand-curated barbering videos from the shop's YouTube channel.
+ *  The channel mixes in personal/viral clips, so NEVER auto-embed latest
+ *  uploads — every id here was reviewed as actual barbering content. */
+export const featuredVideos: { id: string; title: string; titleEs: string }[] = [
+  {
+    id: "ykrO8yr-9Wo",
+    title: "Inside the shop — A Otro Nivel",
+    titleEs: "Dentro de la barbería",
+  },
+  {
+    id: "qdhjxBgHRz4",
+    title: "Fresh fade, happy client",
+    titleEs: "Fade fresco, cliente feliz",
+  },
+  {
+    id: "5jHbCGuSVkI",
+    title: "Razor line-up, every detail",
+    titleEs: "Línea con navaja, cada detalle",
+  },
+  {
+    id: "Fmd1Rv070Ww",
+    title: "Scissor work & precision",
+    titleEs: "Tijera y precisión",
   },
 ];

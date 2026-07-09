@@ -7,6 +7,7 @@ export default function SectionHeading({
   titleEs,
   center = false,
   crest = false,
+  as: Heading = "h2",
 }: {
   eyebrow?: string;
   title: string;
@@ -14,6 +15,8 @@ export default function SectionHeading({
   center?: boolean;
   /** Show the Dominican crest mark above the eyebrow/title. */
   crest?: boolean;
+  /** Heading level — use "h1" for a page's main heading. */
+  as?: "h1" | "h2";
 }) {
   return (
     <div className={center ? "text-center" : ""}>
@@ -25,7 +28,7 @@ export default function SectionHeading({
           {eyebrow}
         </p>
       )}
-      <h2 className="display text-3xl text-cream sm:text-4xl">{title}</h2>
+      <Heading className="display text-3xl text-cream sm:text-4xl">{title}</Heading>
       {titleEs && (
         <p lang="es" className="mt-2 text-lg italic text-gold">
           {titleEs}

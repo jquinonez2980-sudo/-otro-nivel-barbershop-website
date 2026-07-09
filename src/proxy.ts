@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 
+/** Hosts that serve the live public site — no auth. Everything else
+ *  (vercel.app aliases, previews) stays behind the Basic Auth gate. */
+const PUBLIC_HOSTS = new Set([
+  "otronivelbarbershop.com",
+  "www.otronivelbarbershop.com",
+]);
+
 export function proxy(request: NextRequest) {
+  const host = (request.headers.get("host") ?? "").split(":")[0].toLowerCase();
+  if (PUBLIC_HOSTS.has(host)) {
+    return NextResponse.next();
+  }
+
   const user = process.env.PREVIEW_USER;
   const pass = process.env.PREVIEW_PASSWORD;
 

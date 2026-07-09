@@ -35,7 +35,7 @@ export default function ContactPage() {
 
         {/* Contact channels */}
         <Reveal>
-          <div className="mx-auto mt-10 grid max-w-3xl gap-4 sm:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <a
               href={site.phoneHref}
               className="rounded-lg border border-edge bg-surface p-5 text-center transition-colors hover:border-gold/50"
@@ -72,6 +72,22 @@ export default function ContactPage() {
                 {site.instagram.handle}
               </p>
               <p className="mt-1 text-xs text-muted">Fresh cuts daily</p>
+            </a>
+            <a
+              href={site.youtube.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg border border-edge bg-surface p-5 text-center transition-colors hover:border-gold/50"
+            >
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gold">
+                YouTube
+              </p>
+              <p className="mt-2 break-all text-sm font-semibold text-cream">
+                {site.youtube.handle}
+              </p>
+              <p className="mt-1 text-xs text-muted">
+                {site.youtube.subscribers} subscribers
+              </p>
             </a>
           </div>
         </Reveal>

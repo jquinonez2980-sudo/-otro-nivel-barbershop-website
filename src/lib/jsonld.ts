@@ -16,14 +16,14 @@ function toIsoTime(decimalHour: number): string {
   return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
 }
 
-function locationJsonLd(loc: Location) {
+export function locationJsonLd(loc: Location) {
   return {
     "@context": "https://schema.org",
     "@type": "BarberShop",
-    "@id": `${site.url}/contact#${loc.id}`,
+    "@id": `${site.url}/${loc.id}#shop`,
     name: `${site.legalName} — ${loc.name}`,
     image: `${site.url}${loc.photo}`,
-    url: `${site.url}/contact`,
+    url: `${site.url}/${loc.id}`,
     hasMap: loc.mapsUrl,
     telephone: "+16473407187",
     email: site.email,
@@ -42,7 +42,7 @@ function locationJsonLd(loc: Location) {
       opens: toIsoTime(h.open),
       closes: toIsoTime(h.close),
     })),
-    sameAs: [site.instagram.url, site.facebook.url],
+    sameAs: [site.instagram.url, site.facebook.url, site.youtube.url],
   };
 }
 
