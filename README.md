@@ -1,18 +1,34 @@
 # Otro Nivel Barbershop — Website
 
-Next.js site for A Otro Nivel Barber Shop (Weston Rd & Keele St, Toronto). Fully static — no database, no forms, no server code beyond a preview-auth gate.
+Next.js site for A Otro Nivel Barber Shop (Weston Rd & Keele St, Toronto). Mostly static content plus an online booking wizard that talks to Esmi (Orchelix AI receptionist) through server-side proxies.
 
 ## Editing content
 
-Almost everything on the site — prices, hours, addresses, phone/email, social links, FAQs — lives in one file:
+Almost everything on the site — prices, hours, addresses, phone/email, social links, FAQs, service ids/durations — lives in one file:
 
 ```
 src/data/site.ts
 ```
 
-Edit a value there and every page that shows it (home, services, contact, book, and the JSON-LD structured data) updates automatically. You should rarely need to touch anything under `src/app/` or `src/components/` just to change business info.
+Edit a value there and every page that shows it (home, services, contact, book, and the JSON-LD structured data) updates automatically. Service `id` values must match Esmi's `tenants/otro-nivel/config.json` service keys.
 
 To add or swap photos, drop the file in `public/images/` or `public/media/` and reference it from `src/data/site.ts` or the relevant page/component.
+
+## Online booking
+
+`/book` runs a 4-step wizard (location → service → date/time → contact). Call/text CTAs stay equal citizens.
+
+Server-only env vars (Vercel project settings — never `NEXT_PUBLIC_`):
+
+| Variable | Purpose |
+|---|---|
+| `ESMI_API_URL` | Railway Esmi base URL (no trailing slash) |
+| `ESMI_BOOKING_SECRET` | Same value as Railway `BOOKING_API_SECRET` |
+| `ESMI_TENANT_ID` | Defaults to `otro-nivel` if unset |
+
+Proxies: `src/app/api/booking/availability` and `.../create` → Esmi `/bookings/*` with `X-Tenant-Id` + `X-Booking-Secret`.
+
+Until calendars and secrets are live, the wizard still renders; availability may error and users can fall back to phone.
 
 ## Local development
 
