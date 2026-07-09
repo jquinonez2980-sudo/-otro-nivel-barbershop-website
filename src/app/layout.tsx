@@ -5,6 +5,7 @@ import { site } from "@/data/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileActionBar from "@/components/MobileActionBar";
+import EsmiChat from "@/components/EsmiChat";
 
 const anton = Anton({
   variable: "--font-anton",
@@ -69,6 +70,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <MobileActionBar />
+        <EsmiChat />
       </body>
     </html>
   );
