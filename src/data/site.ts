@@ -5,10 +5,14 @@
  */
 
 export type Service = {
+  /** Stable id shared with Esmi booking API (e.g. fade, vip-package) */
+  id: string;
   name: string;
   nameEs: string;
   price: string;
   duration: string;
+  /** Duration in minutes for calendar slot length */
+  durationMin: number;
   featured?: boolean;
   badge?: string;
 };
@@ -32,10 +36,18 @@ export type Location = {
   /** Indexed 0 (Sunday) → 6 (Saturday), 24h decimal hours */
   weekHours: DayRange[];
   hoursDisplay: { label: string; value: string }[];
+  /**
+   * Days that accept online/phone appointments (JS getDay: 0=Sun … 6=Sat).
+   * Saturdays are open for walk-ins but excluded here.
+   */
+  bookingDays: number[];
   services: Service[];
   photo: string;
   photoAlt: string;
 };
+
+/** Days of week (JS getDay) that accept appointments — Mon–Fri + Sun. */
+export const APPOINTMENT_DAYS = [0, 1, 2, 3, 4, 5] as const;
 
 export const site = {
   legalName: "A Otro Nivel Barber Shop",
@@ -94,20 +106,23 @@ export const locations: Location[] = [
       { label: "Tuesday – Saturday", value: "10:00 AM – 8:00 PM" },
       { label: "Sunday", value: "10:00 AM – 5:00 PM" },
     ],
+    bookingDays: [0, 1, 2, 3, 4, 5],
     services: [
-      { name: "Regular Haircut", nameEs: "Corte normal", price: "$40", duration: "45 min" },
-      { name: "Fade", nameEs: "Fade", price: "$50", duration: "45 min", featured: true },
-      { name: "Fade + Beard", nameEs: "Fade con barba", price: "$60", duration: "1 hr", featured: true },
-      { name: "Beard Trim", nameEs: "Barba", price: "$20", duration: "30 min" },
+      { id: "regular-haircut", name: "Regular Haircut", nameEs: "Corte normal", price: "$40", duration: "45 min", durationMin: 45 },
+      { id: "fade", name: "Fade", nameEs: "Fade", price: "$50", duration: "45 min", durationMin: 45, featured: true },
+      { id: "fade-beard", name: "Fade + Beard", nameEs: "Fade con barba", price: "$60", duration: "1 hr", durationMin: 60, featured: true },
+      { id: "beard-trim", name: "Beard Trim", nameEs: "Barba", price: "$20", duration: "30 min", durationMin: 30 },
       {
+        id: "vip-package",
         name: "VIP Package",
         nameEs: "Paquete VIP",
         price: "$70",
         duration: "1 hr 15 min",
+        durationMin: 75,
         featured: true,
         badge: "Weston Exclusive",
       },
-      { name: "Children's Haircut", nameEs: "Corte para niños", price: "$30–$35", duration: "45 min" },
+      { id: "kids-haircut", name: "Children's Haircut", nameEs: "Corte para niños", price: "$30–$35", duration: "45 min", durationMin: 45 },
     ],
     photo: "/media/weston-hall.jpg",
     photoAlt:
@@ -139,11 +154,12 @@ export const locations: Location[] = [
       { label: "Tuesday – Saturday", value: "10:00 AM – 9:00 PM" },
       { label: "Sunday", value: "10:00 AM – 7:00 PM" },
     ],
+    bookingDays: [0, 1, 2, 3, 4, 5],
     services: [
-      { name: "Regular Haircut", nameEs: "Corte normal", price: "$35", duration: "45 min" },
-      { name: "Fade", nameEs: "Fade", price: "$35–$40", duration: "45 min", featured: true },
-      { name: "Beard Trim", nameEs: "Barba", price: "$20", duration: "25 min" },
-      { name: "Children's Haircut", nameEs: "Corte para niños", price: "$30", duration: "40 min" },
+      { id: "regular-haircut", name: "Regular Haircut", nameEs: "Corte normal", price: "$35", duration: "45 min", durationMin: 45 },
+      { id: "fade", name: "Fade", nameEs: "Fade", price: "$35–$40", duration: "45 min", durationMin: 45, featured: true },
+      { id: "beard-trim", name: "Beard Trim", nameEs: "Barba", price: "$20", duration: "25 min", durationMin: 25 },
+      { id: "kids-haircut", name: "Children's Haircut", nameEs: "Corte para niños", price: "$30", duration: "40 min", durationMin: 40 },
     ],
     photo: "/media/keele-hall.jpg",
     photoAlt:

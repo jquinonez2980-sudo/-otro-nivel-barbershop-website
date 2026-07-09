@@ -1,32 +1,17 @@
 import type { Metadata } from "next";
-import { site, locations } from "@/data/site";
+import { site } from "@/data/site";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
-import OpenBadge from "@/components/OpenBadge";
+import BookingWizard from "@/components/BookingWizard";
 
 export const metadata: Metadata = {
   title: "Book Now",
   description:
-    "Book in 60 seconds, day or night. Call or text (647) 340-7187 — Esmi answers 24/7 in English and Spanish. No deposit. Saturdays walk-in only.",
+    "Book online or call Esmi 24/7. Weston or Keele — English and Spanish. No deposit. Saturdays walk-in only.",
   alternates: {
     canonical: "/book",
   },
 };
-
-const STEPS = [
-  {
-    title: "Call or text, any hour",
-    body: `${site.esmi.name} picks up 24/7 — before work, after close, whenever. English o español.`,
-  },
-  {
-    title: "Say what you need",
-    body: "Your service, your location — Weston or Keele — and the day and time that works for you.",
-  },
-  {
-    title: "Get your confirmation text",
-    body: "Booked in about 60 seconds. You'll receive a confirmation text right away. No deposit required.",
-  },
-];
 
 export default function BookPage() {
   return (
@@ -39,10 +24,11 @@ export default function BookPage() {
         crest
       />
       <p className="mx-auto mt-6 max-w-2xl text-center text-muted">
+        Book online below, or call/text Esmi — same calendars, no double-booking.{" "}
         {site.esmi.blurb}
       </p>
 
-      {/* Primary actions */}
+      {/* Phone / text equal citizen CTAs */}
       <Reveal>
         <div className="mx-auto mt-10 flex max-w-lg flex-col gap-3 sm:flex-row">
           <a
@@ -58,52 +44,24 @@ export default function BookPage() {
             Text to Book
           </a>
         </div>
+        <p className="mt-3 text-center text-sm text-muted">
+          Prefer to talk?{" "}
+          <strong className="text-cream">{site.esmi.name}</strong> answers 24/7
+          in English or Spanish.
+        </p>
       </Reveal>
 
-      {/* How it works */}
-      <div className="mt-16 grid gap-4 sm:grid-cols-3">
-        {STEPS.map((step, i) => (
-          <Reveal key={step.title} delay={i * 0.1}>
-            <div className="h-full rounded-lg border border-edge bg-surface p-6">
-              <p className="display text-3xl text-gold" aria-hidden="true">
-                {i + 1}
-              </p>
-              <h2 className="mt-3 font-bold text-cream">{step.title}</h2>
-              <p className="mt-2 text-sm text-muted">{step.body}</p>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-
-      {/* Choose a location */}
+      {/* Online wizard */}
       <div className="mt-16">
         <Reveal>
-          <SectionHeading eyebrow="Step One" title="Pick your shop" />
+          <SectionHeading
+            eyebrow="Online · En línea"
+            title="Book your cut online"
+            titleEs="Reserva tu corte en línea"
+            center
+          />
         </Reveal>
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          {locations.map((loc, i) => (
-            <Reveal key={loc.id} delay={i * 0.1}>
-              <div className="rounded-lg border border-edge bg-surface p-6">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h3 className="display text-2xl text-cream">{loc.name}</h3>
-                    <p className="mt-1 text-sm text-muted">{loc.fullAddress}</p>
-                  </div>
-                  <OpenBadge location={loc} />
-                </div>
-                <a
-                  href={site.phoneHref}
-                  className="mt-5 block rounded bg-red px-6 py-3 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-deep"
-                >
-                  Book {loc.name} by Phone
-                </a>
-                <p className="mt-3 text-center text-xs text-muted">
-                  Online calendar booking coming soon
-                </p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <BookingWizard />
       </div>
 
       {/* Booking notes */}
@@ -117,7 +75,9 @@ export default function BookPage() {
             <li>
               <strong className="text-cream">Saturdays are walk-in only</strong> — no
               appointments, first come first served.{" "}
-              <span lang="es" className="italic">Sábados solo sin cita.</span>
+              <span lang="es" className="italic">
+                Sábados solo sin cita.
+              </span>
             </li>
             <li>Appointments available Monday–Friday and Sundays.</li>
             <li>No deposit required, no cancellation fee — a heads-up is appreciated.</li>
