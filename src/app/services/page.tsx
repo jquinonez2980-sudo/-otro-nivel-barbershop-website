@@ -40,6 +40,7 @@ export default function ServicesPage() {
           title="Every cut, a otro nivel"
           titleEs="Precios claros, cortes precisos"
           center
+          crest
         />
         <p className="mx-auto mt-6 max-w-2xl text-center text-muted">
           Pricing differs slightly between our two shops — pick your location

@@ -30,6 +30,7 @@ export default function ContactPage() {
           title="Come through — we're easy to find"
           titleEs="Aquí te esperamos"
           center
+          crest
         />
 
         {/* Contact channels */}

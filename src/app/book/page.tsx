@@ -36,6 +36,7 @@ export default function BookPage() {
         title="Booked in 60 seconds — day or night"
         titleEs="Reserva en un minuto, a cualquier hora"
         center
+        crest
       />
       <p className="mx-auto mt-6 max-w-2xl text-center text-muted">
         {site.esmi.blurb}

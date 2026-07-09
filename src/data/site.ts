@@ -47,7 +47,7 @@ export const site = {
   phone: "(647) 340-7187",
   phoneHref: "tel:+16473407187",
   smsHref: "sms:+16473407187",
-  email: "aotronivelbarbershop02@gmail.com",
+  email: "info@otronivelbarbershop.com",
   instagram: {
     handle: "@aotronivelbarbershop02",
     url: "https://www.instagram.com/aotronivelbarbershop02",

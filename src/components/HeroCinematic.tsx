@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import {
@@ -11,12 +12,10 @@ import {
 import { site } from "@/data/site";
 import DominicanFlag from "@/components/DominicanFlag";
 
-const HEADLINE = ["OTRO", "NIVEL"];
-
 /**
  * Full-viewport cinematic hero: looping interior footage of the Weston shop,
- * per-letter kinetic headline, and a parallax drift as you scroll away.
- * Reduced motion gets the poster frame and static text.
+ * the brand mark, and a parallax drift as you scroll away.
+ * Reduced motion gets the poster frame and a static logo.
  */
 export default function HeroCinematic() {
   const ref = useRef<HTMLElement>(null);
@@ -83,30 +82,22 @@ export default function HeroCinematic() {
         </motion.p>
 
         <h1 aria-label={`${site.shortName} — ${site.tagline}`}>
-          <span aria-hidden="true" className="block">
-            {HEADLINE.map((word, w) => (
-              <span
-                key={word}
-                className="display block text-[clamp(4rem,17vw,11.5rem)] leading-[0.88] text-cream"
-              >
-                {word.split("").map((ch, i) => (
-                  <motion.span
-                    key={`${w}-${i}`}
-                    initial={reduceMotion ? false : { opacity: 0, y: 90, rotate: 4 }}
-                    animate={{ opacity: 1, y: 0, rotate: 0 }}
-                    transition={{
-                      duration: 0.7,
-                      delay: 0.25 + (w * word.length + i) * 0.045,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                    className="inline-block will-change-transform"
-                  >
-                    {ch}
-                  </motion.span>
-                ))}
-              </span>
-            ))}
-          </span>
+          <motion.span
+            aria-hidden="true"
+            className="block"
+            initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.94 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <Image
+              src="/images/logo-circle.webp"
+              alt=""
+              width={1024}
+              height={1024}
+              priority
+              className="h-auto w-[clamp(10rem,26vw,17rem)] drop-shadow-[0_8px_30px_rgba(0,0,0,0.55)]"
+            />
+          </motion.span>
           <motion.span
             initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
