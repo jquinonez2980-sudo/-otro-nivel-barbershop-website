@@ -125,6 +125,7 @@ export default function BookingWizard() {
     setSlotsError(null);
     setSlots([]);
     setSlot(null);
+    setWalkInOnly(false);
     try {
       const qs = new URLSearchParams({
         location: locationId,
