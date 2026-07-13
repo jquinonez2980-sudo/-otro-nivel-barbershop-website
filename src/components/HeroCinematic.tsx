@@ -59,6 +59,7 @@ export default function HeroCinematic() {
             preload="metadata"
             poster="/media/hero-poster.jpg"
           >
+            <source src="/media/hero-loop.webm" type="video/webm" />
             <source src="/media/hero-loop.mp4" type="video/mp4" />
           </video>
         )}
