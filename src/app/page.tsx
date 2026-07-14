@@ -118,9 +118,15 @@ export default function Home() {
                 href={site.instagram.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-semibold text-gold underline-offset-4 hover:underline"
+                className="group inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/5 px-4 py-2 text-sm font-semibold text-gold transition-colors hover:border-gold hover:bg-gold/10"
               >
-                Fresh cuts daily — {site.instagram.handle} →
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.8" />
+                  <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8" />
+                  <circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" />
+                </svg>
+                Fresh cuts daily — {site.instagram.handle}
+                <span className="transition-transform group-hover:translate-x-0.5">→</span>
               </a>
             </div>
           </Reveal>

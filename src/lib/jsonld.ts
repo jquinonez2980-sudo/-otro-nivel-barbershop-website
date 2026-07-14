@@ -42,7 +42,7 @@ export function locationJsonLd(loc: Location) {
       opens: toIsoTime(h.open),
       closes: toIsoTime(h.close),
     })),
-    sameAs: [site.instagram.url, site.facebook.url, site.youtube.url],
+    sameAs: [site.instagram.url, site.tiktok.url, site.facebook.url, site.youtube.url],
   };
 }
 

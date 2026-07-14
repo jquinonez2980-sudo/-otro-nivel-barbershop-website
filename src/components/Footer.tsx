@@ -77,6 +77,20 @@ export default function Footer() {
               </svg>
             </a>
             <a
+              href={site.tiktok.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`TikTok — ${site.tiktok.handle}`}
+              className="transition-colors hover:text-cream"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M16.5 3v9.8a3.2 3.2 0 1 1-2.5-3.12V7.1a5.7 5.7 0 1 0 4.9 5.64V9.6a6.9 6.9 0 0 0 3.6 1.02V8.1a4.1 4.1 0 0 1-3.3-2.02A4.4 4.4 0 0 1 18.5 3h-2Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </a>
+            <a
               href={site.facebook.url}
               target="_blank"
               rel="noopener noreferrer"

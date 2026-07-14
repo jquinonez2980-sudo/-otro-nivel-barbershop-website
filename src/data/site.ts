@@ -64,6 +64,10 @@ export const site = {
     handle: "@aotronivelbarbershop02",
     url: "https://www.instagram.com/aotronivelbarbershop02",
   },
+  tiktok: {
+    handle: "@otronivelbarbers",
+    url: "https://www.tiktok.com/@otronivelbarbers",
+  },
   facebook: {
     label: "A Otro Nivel Barbershop",
     url: "https://www.facebook.com/a.otro.nivel.barbershop",
@@ -160,7 +164,7 @@ export const locations: Location[] = [
     ],
     bookingDays: [0, 1, 2, 3, 4, 5],
     services: [
-      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$35", duration: "45 min", durationMin: 45, featured: true },
+      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$35–$40", duration: "45 min", durationMin: 45, featured: true },
       { id: "haircut-beard", name: "Haircut and Beard Trim", nameEs: "Corte y barba", price: "$50", duration: "1 hr", durationMin: 60, featured: true },
       { id: "beard-trim", name: "Beard Trim and Line Up", nameEs: "Barba y contorno", price: "$20", duration: "25 min", durationMin: 25 },
       { id: "kids-haircut", name: "Kids Haircut (11 years or younger)", nameEs: "Corte para niños (11 años o menos)", price: "$30", duration: "40 min", durationMin: 40 },
