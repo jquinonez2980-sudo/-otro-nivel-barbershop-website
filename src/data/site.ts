@@ -65,8 +65,8 @@ export const site = {
     url: "https://www.instagram.com/aotronivelbarbershop02",
   },
   tiktok: {
-    handle: "@otronivelbarbers",
-    url: "https://www.tiktok.com/@otronivelbarbers",
+    handle: "@aotronivelbarbers",
+    url: "https://www.tiktok.com/@aotronivelbarbers",
   },
   facebook: {
     label: "A Otro Nivel Barbershop",
