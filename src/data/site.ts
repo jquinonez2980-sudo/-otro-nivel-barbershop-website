@@ -5,7 +5,7 @@
  */
 
 export type Service = {
-  /** Stable id shared with Esmi booking API (e.g. fade, vip-package) */
+  /** Stable id shared with Esmi booking API (e.g. regular-haircut, vip-package) */
   id: string;
   name: string;
   nameEs: string;
@@ -113,21 +113,20 @@ export const locations: Location[] = [
     ],
     bookingDays: [0, 1, 2, 3, 4, 5],
     services: [
-      { id: "regular-haircut", name: "Regular Haircut", nameEs: "Corte normal", price: "$40", duration: "45 min", durationMin: 45 },
-      { id: "fade", name: "Fade", nameEs: "Fade", price: "$50", duration: "45 min", durationMin: 45, featured: true },
-      { id: "fade-beard", name: "Fade + Beard", nameEs: "Fade con barba", price: "$60", duration: "1 hr", durationMin: 60, featured: true },
-      { id: "beard-trim", name: "Beard Trim", nameEs: "Barba", price: "$20", duration: "30 min", durationMin: 30 },
+      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$40–$50", duration: "45 min", durationMin: 45, featured: true },
+      { id: "haircut-beard", name: "Haircut and Beard Trim", nameEs: "Corte y barba", price: "$55", duration: "1 hr", durationMin: 60, featured: true },
+      { id: "beard-trim", name: "Beard Trim and Line Up", nameEs: "Barba y contorno", price: "$25", duration: "30 min", durationMin: 30 },
       {
         id: "vip-package",
-        name: "VIP Package",
-        nameEs: "Paquete VIP",
-        price: "$70",
+        name: "VIP Service (Haircut, Hot Towel Service, Beard Trim)",
+        nameEs: "Servicio VIP (Corte, Toalla Caliente, Barba)",
+        price: "$60",
         duration: "1 hr 15 min",
         durationMin: 75,
         featured: true,
         badge: "Weston Exclusive",
       },
-      { id: "kids-haircut", name: "Children's Haircut", nameEs: "Corte para niños", price: "$30–$35", duration: "45 min", durationMin: 45 },
+      { id: "kids-haircut", name: "Kids Haircut (11 years or younger)", nameEs: "Corte para niños (11 años o menos)", price: "$30", duration: "45 min", durationMin: 45 },
     ],
     photo: "/media/weston-hall.jpg",
     photoAlt:
@@ -161,10 +160,10 @@ export const locations: Location[] = [
     ],
     bookingDays: [0, 1, 2, 3, 4, 5],
     services: [
-      { id: "regular-haircut", name: "Regular Haircut", nameEs: "Corte normal", price: "$35", duration: "45 min", durationMin: 45 },
-      { id: "fade", name: "Fade", nameEs: "Fade", price: "$35–$40", duration: "45 min", durationMin: 45, featured: true },
-      { id: "beard-trim", name: "Beard Trim", nameEs: "Barba", price: "$20", duration: "25 min", durationMin: 25 },
-      { id: "kids-haircut", name: "Children's Haircut", nameEs: "Corte para niños", price: "$30", duration: "40 min", durationMin: 40 },
+      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$35", duration: "45 min", durationMin: 45, featured: true },
+      { id: "haircut-beard", name: "Haircut and Beard Trim", nameEs: "Corte y barba", price: "$50", duration: "1 hr", durationMin: 60, featured: true },
+      { id: "beard-trim", name: "Beard Trim and Line Up", nameEs: "Barba y contorno", price: "$20", duration: "25 min", durationMin: 25 },
+      { id: "kids-haircut", name: "Kids Haircut (11 years or younger)", nameEs: "Corte para niños (11 años o menos)", price: "$30", duration: "40 min", durationMin: 40 },
     ],
     photo: "/media/keele-hall.jpg",
     photoAlt:
@@ -175,28 +174,28 @@ export const locations: Location[] = [
 /** Featured services for the homepage teaser, with "from" pricing across locations. */
 export const featuredServices = [
   {
-    name: "Fade",
-    nameEs: "Fade",
+    name: "Haircut",
+    nameEs: "Corte",
     from: "from $35",
-    description: "Our signature. Skin, taper, drop — blended to the line.",
+    description: "Skin, taper, drop — blended to the line.",
   },
   {
-    name: "VIP Package",
-    nameEs: "Paquete VIP",
-    from: "$70",
-    description: "The full treatment — haircut, beard, and premium finish.",
+    name: "VIP Service",
+    nameEs: "Servicio VIP",
+    from: "$60",
+    description: "Haircut, hot towel service, and beard trim.",
     badge: "Weston Exclusive",
   },
   {
-    name: "Beard Trim",
-    nameEs: "Barba",
-    from: "$20",
+    name: "Beard Trim and Line Up",
+    nameEs: "Barba y contorno",
+    from: "from $20",
     description: "Shaped, lined, and conditioned. Both locations.",
   },
   {
     name: "Kids' Haircut",
     nameEs: "Corte para niños",
-    from: "from $30",
+    from: "$30",
     description: "Kids and babies welcome — patient barbers, clean cuts.",
   },
 ];

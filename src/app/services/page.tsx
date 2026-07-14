@@ -10,7 +10,7 @@ import Reveal from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Services & Pricing",
   description:
-    "Haircuts, fades, beard trims, kids' cuts and the VIP Package. Clear pricing for both Toronto locations — Weston Rd and Keele St. Walk-ins welcome.",
+    "Haircuts, beard trims, kids' cuts and the VIP Service. Clear pricing for both Toronto locations — Weston Rd and Keele St. Walk-ins welcome.",
   alternates: {
     canonical: "/services",
   },

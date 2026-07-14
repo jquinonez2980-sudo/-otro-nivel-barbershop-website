@@ -24,7 +24,7 @@ const COPY = {
   weston: {
     h1: "Barbershop on Weston Road, Toronto",
     intro:
-      "Our flagship shop at 2851 Weston Road — hexagon ceiling lights, gold chairs, and the full Otro Nivel experience. Home of the VIP Package. Walk in any day, or book a chair in 60 seconds.",
+      "Our flagship shop at 2851 Weston Road — hexagon ceiling lights, gold chairs, and the full Otro Nivel experience. Home of the VIP Service. Walk in any day, or book a chair in 60 seconds.",
     faq: [
       {
         q: "Where do I park at the Weston Road shop?",
@@ -35,8 +35,8 @@ const COPY = {
         a: "Walk-ins are welcome every day. Appointments are available Monday–Friday and Sundays; Saturdays are walk-in only.",
       },
       {
-        q: "What's the VIP Package?",
-        a: "Weston's exclusive full treatment — haircut, beard, and premium finish, about 1 hour 15 minutes for $70.",
+        q: "What's the VIP Service?",
+        a: "Weston's exclusive full treatment — haircut, hot towel service, and beard trim, about 1 hour 15 minutes for $60.",
       },
     ],
   },

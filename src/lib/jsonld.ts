@@ -27,7 +27,7 @@ export function locationJsonLd(loc: Location) {
     hasMap: loc.mapsUrl,
     telephone: "+16473407187",
     email: site.email,
-    priceRange: "$20–$70",
+    priceRange: "$20–$60",
     address: {
       "@type": "PostalAddress",
       streetAddress: loc.address,

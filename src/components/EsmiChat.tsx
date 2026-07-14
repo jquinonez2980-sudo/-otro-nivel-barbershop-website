@@ -40,13 +40,13 @@ const QUICK_REPLIES: Record<Locale, { label: string; value: string }[]> = {
   en: [
     { label: "Book a cut", value: "I'd like to book a haircut" },
     { label: "What's open this week?", value: "What times are available this week?" },
-    { label: "Prices", value: "How much is a fade at each location?" },
+    { label: "Prices", value: "How much is a haircut at each location?" },
     { label: "Hours & locations", value: "What are your hours and where are you located?" },
   ],
   es: [
     { label: "Reservar un corte", value: "Quiero reservar un corte de pelo" },
     { label: "Horarios disponibles", value: "¿Qué horarios tienen disponibles esta semana?" },
-    { label: "Precios", value: "¿Cuánto cuesta un fade en cada local?" },
+    { label: "Precios", value: "¿Cuánto cuesta un corte en cada local?" },
     { label: "Horas y ubicaciones", value: "¿Cuál es su horario y dónde están ubicados?" },
   ],
 };
