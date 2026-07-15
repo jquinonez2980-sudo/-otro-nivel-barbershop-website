@@ -33,6 +33,8 @@ export type Location = {
   fullAddress: string;
   mapsUrl: string;
   mapsEmbedUrl: string;
+  /** WGS84 coordinates for JSON-LD geo + maps */
+  geo: { lat: number; lng: number };
   /** Indexed 0 (Sunday) → 6 (Saturday), 24h decimal hours */
   weekHours: DayRange[];
   hoursDisplay: { label: string; value: string }[];
@@ -56,7 +58,9 @@ export const site = {
   tagline: "The Premier Latino Barbershop in Toronto",
   taglineEs: "La barbería latina de Toronto",
   url: "https://otronivelbarbershop.com",
+  /** Canonical public phone for both shops (NAP: never list 416-901-1218 on-site). */
   phone: "(647) 340-7187",
+  phoneE164: "+16473407187",
   phoneHref: "tel:+16473407187",
   smsHref: "sms:+16473407187",
   email: "info@otronivelbarbershop.com",
@@ -86,6 +90,19 @@ export const site = {
   holidayNote:
     "Open on most statutory holidays. Closed Christmas Day and New Year's Day.",
   owners: "Dawna Temporal & Freilin De Los Santos",
+  /**
+   * Google review short links — fill from GBP → Ask for reviews.
+   * Used by Esmi post-visit SMS and contact CTAs once configured.
+   */
+  googleReviewUrl: {
+    weston: "" as string,
+    keele: "" as string,
+  },
+  /**
+   * Set from Google Business Profile when review volume is solid.
+   * JSON-LD aggregateRating is emitted only when both fields are set.
+   */
+  reviews: null as null | { ratingValue: string; reviewCount: number },
 } as const;
 
 export const locations: Location[] = [
@@ -101,6 +118,7 @@ export const locations: Location[] = [
       "https://www.google.com/maps/search/?api=1&query=A+Otro+Nivel+Barber+Shop+2851+Weston+Road+Toronto+ON+M9M+2S1",
     mapsEmbedUrl:
       "https://www.google.com/maps?q=2851+Weston+Road,+Toronto,+ON+M9M+2S1&output=embed",
+    geo: { lat: 43.72105, lng: -79.53704 },
     weekHours: [
       { open: 10, close: 17 }, // Sun
       { open: 10, close: 19 }, // Mon
@@ -148,6 +166,7 @@ export const locations: Location[] = [
       "https://www.google.com/maps/search/?api=1&query=A+Otro+Nivel+Barber+Shop+2266+Keele+Street+North+York+ON+M6M+3Y9",
     mapsEmbedUrl:
       "https://www.google.com/maps?q=2266+Keele+Street,+North+York,+ON+M6M+3Y9&output=embed",
+    geo: { lat: 43.70234, lng: -79.47694 },
     weekHours: [
       { open: 10, close: 19 }, // Sun
       { open: 10, close: 19 }, // Mon
@@ -175,34 +194,103 @@ export const locations: Location[] = [
   },
 ];
 
-/** Featured services for the homepage teaser, with "from" pricing across locations. */
+/**
+ * Parse a price string like "$40–$50", "from $35", or "$60" into min/max dollars.
+ * Used so homepage teaser prices always match location service tables.
+ */
+function parsePriceBounds(price: string): { min: number; max: number } | null {
+  const nums = price.match(/\d+/g)?.map(Number);
+  if (!nums || nums.length === 0) return null;
+  return { min: Math.min(...nums), max: Math.max(...nums) };
+}
+
+function fromPriceLabel(prices: string[]): string {
+  const bounds = prices
+    .map(parsePriceBounds)
+    .filter((b): b is { min: number; max: number } => b !== null);
+  if (bounds.length === 0) return "";
+  const min = Math.min(...bounds.map((b) => b.min));
+  const max = Math.max(...bounds.map((b) => b.max));
+  if (min === max) return `$${min}`;
+  return `from $${min}`;
+}
+
+/**
+ * Homepage service teaser — prices derived from location.services so they
+ * cannot drift from the services page or booking wizard.
+ */
 export const featuredServices = [
   {
     name: "Haircut",
     nameEs: "Corte",
-    from: "from $35",
-    description: "Skin, taper, drop — blended to the line.",
+    from: fromPriceLabel(
+      locations.flatMap((l) =>
+        l.services.filter((s) => s.id === "regular-haircut").map((s) => s.price),
+      ),
+    ),
+    description:
+      "Skin, taper, drop — blended to the line. Weston $40–$50 · Keele $35–$40.",
   },
   {
     name: "VIP Service",
     nameEs: "Servicio VIP",
-    from: "$60",
+    from: fromPriceLabel(
+      locations.flatMap((l) =>
+        l.services.filter((s) => s.id === "vip-package").map((s) => s.price),
+      ),
+    ),
     description: "Haircut, hot towel service, and beard trim.",
     badge: "Weston Exclusive",
   },
   {
     name: "Beard Trim and Line Up",
     nameEs: "Barba y contorno",
-    from: "from $20",
+    from: fromPriceLabel(
+      locations.flatMap((l) =>
+        l.services.filter((s) => s.id === "beard-trim").map((s) => s.price),
+      ),
+    ),
     description: "Shaped, lined, and conditioned. Both locations.",
   },
   {
     name: "Kids' Haircut",
     nameEs: "Corte para niños",
-    from: "$30",
+    from: fromPriceLabel(
+      locations.flatMap((l) =>
+        l.services.filter((s) => s.id === "kids-haircut").map((s) => s.price),
+      ),
+    ),
     description: "Kids and babies welcome — patient barbers, clean cuts.",
   },
 ];
+
+/** Meet the team — loyalty is barber loyalty. Expand as portraits land. */
+export const team = [
+  {
+    name: "Freilin De Los Santos",
+    role: "Owner / Master Barber",
+    roleEs: "Dueño / Barbero maestro",
+    bio: "Co-owner and the hands behind the flagship look — fades, designs, and the VIP standard that put Weston on the map.",
+    bioEs: "Co-dueño y la mano detrás del estilo insignia — fades, diseños y el estándar VIP de Weston.",
+    photo: "/media/weston-gold-chairs.jpg",
+  },
+  {
+    name: "Dawna Temporal",
+    role: "Owner / Operations",
+    roleEs: "Dueña / Operaciones",
+    bio: "Co-owner keeping both shops running sharp — the culture, the community, and the standard that every chair has to hit.",
+    bioEs: "Co-dueña que mantiene ambos locales al nivel — la cultura, la comunidad y el estándar de cada silla.",
+    photo: "/media/weston-hall.jpg",
+  },
+  {
+    name: "The Crew",
+    role: "Barbers — Weston & Keele",
+    roleEs: "Barberos — Weston y Keele",
+    bio: "Dominican-rooted barbers who speak English and Spanish, welcome kids, and treat every fade like it's going on the feed.",
+    bioEs: "Barberos de raíz dominicana que hablan inglés y español, reciben niños y tratan cada fade como si fuera al feed.",
+    photo: "/media/keele-hall.jpg",
+  },
+] as const;
 
 export const trustPoints = [
   { en: "Walk-ins Welcome", es: "Sin cita, bienvenido", icon: "walk" },

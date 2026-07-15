@@ -36,6 +36,7 @@ export default function ServicesPage() {
 
       <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
         <SectionHeading
+          as="h1"
           eyebrow="Services & Pricing"
           title="Every cut, a otro nivel"
           titleEs="Precios claros, cortes precisos"

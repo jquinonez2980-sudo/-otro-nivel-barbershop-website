@@ -282,7 +282,7 @@ export default function EsmiChat() {
         aria-label={
           open ? "Close chat with Esmi" : "Chat with Esmi — English o español"
         }
-        className="fixed bottom-20 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-cyan-400/25 bg-[linear-gradient(145deg,#06122A_0%,#0A2540_55%,#0D3A4A_100%)] p-2.5 text-white shadow-[0_8px_28px_rgba(10,37,64,0.45),0_0_20px_rgba(0,240,255,0.18)] transition-transform hover:scale-105 md:bottom-6 md:right-6"
+        className="fixed bottom-24 right-3 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-cyan-400/25 bg-[linear-gradient(145deg,#06122A_0%,#0A2540_55%,#0D3A4A_100%)] p-2.5 text-white shadow-[0_8px_28px_rgba(10,37,64,0.45),0_0_20px_rgba(0,240,255,0.18)] transition-transform hover:scale-105 max-[400px]:bottom-28 max-[400px]:right-2 md:bottom-6 md:right-6"
       >
         {open ? (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">

@@ -57,6 +57,10 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${anton.variable} ${archivo.variable} h-full antialiased`}
     >
+      <head>
+        {/* Hero LCP: preload compressed poster before paint */}
+        <link rel="preload" as="image" href="/media/hero-poster.webp" type="image/webp" />
+      </head>
       <body className="flex min-h-full flex-col bg-ink text-cream">
         <a
           href="#main"

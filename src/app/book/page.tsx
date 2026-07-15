@@ -17,6 +17,7 @@ export default function BookPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6">
       <SectionHeading
+        as="h1"
         eyebrow="Book Now · Reservar"
         title="Booked in 60 seconds — day or night"
         titleEs="Reserva en un minuto, a cualquier hora"
@@ -26,6 +27,9 @@ export default function BookPage() {
       <p className="mx-auto mt-6 max-w-2xl text-center text-muted">
         Book online below, or call/text Esmi — same calendars, no double-booking.{" "}
         {site.esmi.blurb}
+      </p>
+      <p className="mx-auto mt-3 max-w-xl text-center text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+        Live availability · No deposit · Confirm in under a minute
       </p>
 
       {/* Phone / text equal citizen CTAs */}

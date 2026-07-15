@@ -17,15 +17,16 @@ function toIsoTime(decimalHour: number): string {
 }
 
 export function locationJsonLd(loc: Location) {
-  return {
+  const graph: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "BarberShop",
     "@id": `${site.url}/${loc.id}#shop`,
     name: `${site.legalName} — ${loc.name}`,
+    alternateName: [site.name, site.shortName, "A Otro Nivel Barbershop"],
     image: `${site.url}${loc.photo}`,
     url: `${site.url}/${loc.id}`,
     hasMap: loc.mapsUrl,
-    telephone: "+16473407187",
+    telephone: site.phoneE164,
     email: site.email,
     priceRange: "$20–$60",
     address: {
@@ -36,6 +37,11 @@ export function locationJsonLd(loc: Location) {
       postalCode: loc.postalCode,
       addressCountry: "CA",
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: loc.geo.lat,
+      longitude: loc.geo.lng,
+    },
     openingHoursSpecification: loc.weekHours.map((h, day) => ({
       "@type": "OpeningHoursSpecification",
       dayOfWeek: DAY_NAMES[day],
@@ -44,6 +50,19 @@ export function locationJsonLd(loc: Location) {
     })),
     sameAs: [site.instagram.url, site.tiktok.url, site.facebook.url, site.youtube.url],
   };
+
+  // Only emit aggregateRating when real review stats are configured (never invent).
+  if (site.reviews?.ratingValue && site.reviews?.reviewCount) {
+    graph.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: site.reviews.ratingValue,
+      reviewCount: site.reviews.reviewCount,
+      bestRating: 5,
+      worstRating: 1,
+    };
+  }
+
+  return graph;
 }
 
 /** LocalBusiness JSON-LD for every location — one entry per shop. */

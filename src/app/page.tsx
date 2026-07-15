@@ -13,24 +13,74 @@ import WorkGallery, { type WorkPhoto } from "@/components/WorkGallery";
 import VideoReel from "@/components/VideoReel";
 import StatsStrip from "@/components/StatsStrip";
 import ShopsShowcase from "@/components/ShopsShowcase";
+import TeamSection from "@/components/TeamSection";
 
+/** Bilingual alt text for image SEO (fades, designs, kids cuts, Toronto barbershop). */
 const WORK: WorkPhoto[] = [
-  { src: "/media/cut-eagle-design.jpg", alt: "Freestyle eagle design razored into a low fade" },
-  { src: "/media/cut-skin-fade.jpg", alt: "Crisp skin fade, side profile" },
-  { src: "/media/cut-wave-design.jpg", alt: "Wave pattern design carved into a taper fade" },
-  { src: "/media/cut-taper-beard.jpg", alt: "Taper fade blended into a full sculpted beard" },
-  { src: "/media/cut-lightning-design.jpg", alt: "Lightning bolt design cut into the back of a fade" },
-  { src: "/media/cut-razor-part.jpg", alt: "Hard razor part with a clean line-up" },
-  { src: "/media/cut-pompadour.jpg", alt: "Slicked pompadour with a mid fade" },
-  { src: "/media/cut-fade-tattoo.jpg", alt: "Low fade with a razor design behind the ear" },
-  { src: "/media/cut-beard-sculpt.jpg", alt: "Full beard shaped and lined to the jaw" },
-  { src: "/media/cut-crop-top.jpg", alt: "Textured crop with a high skin fade" },
-  { src: "/media/cut-kids-fade.jpg", alt: "Kids' fade with a soft blended top" },
-  { src: "/media/cut-waves-profile.jpg", alt: "Deep 360 waves with a sharp line-up" },
-  { src: "/media/cut-crisp-line.jpg", alt: "High and tight fade with a crisp front line" },
-  { src: "/media/cut-textured-crop.jpg", alt: "Wavy textured top with a clean taper" },
-  { src: "/media/cut-fresh-fade.jpg", alt: "Fresh mid fade seen from the side" },
-  { src: "/media/cut-design-lines.jpg", alt: "Double slash design over a drop fade" },
+  {
+    src: "/media/cut-eagle-design.jpg",
+    alt: "Freestyle eagle design razored into a low fade — corte con diseño de águila, Toronto barbershop",
+  },
+  {
+    src: "/media/cut-skin-fade.jpg",
+    alt: "Crisp skin fade, side profile — fade al ras / skin fade, Toronto",
+  },
+  {
+    src: "/media/cut-wave-design.jpg",
+    alt: "Wave pattern design carved into a taper fade — corte con diseño de ondas",
+  },
+  {
+    src: "/media/cut-taper-beard.jpg",
+    alt: "Taper fade blended into a full sculpted beard — taper y barba esculpida",
+  },
+  {
+    src: "/media/cut-lightning-design.jpg",
+    alt: "Lightning bolt design cut into the back of a fade — diseño de rayo en fade",
+  },
+  {
+    src: "/media/cut-razor-part.jpg",
+    alt: "Hard razor part with a clean line-up — raya con navaja y contorno limpio",
+  },
+  {
+    src: "/media/cut-pompadour.jpg",
+    alt: "Slicked pompadour with a mid fade — pompadour con mid fade",
+  },
+  {
+    src: "/media/cut-fade-tattoo.jpg",
+    alt: "Low fade with a razor design behind the ear — low fade con diseño a navaja",
+  },
+  {
+    src: "/media/cut-beard-sculpt.jpg",
+    alt: "Full beard shaped and lined to the jaw — barba completa alineada y esculpida",
+  },
+  {
+    src: "/media/cut-crop-top.jpg",
+    alt: "Textured crop with a high skin fade — crop texturizado con high skin fade",
+  },
+  {
+    src: "/media/cut-kids-fade.jpg",
+    alt: "Kids' fade with a soft blended top — corte para niños con fade suave, Toronto",
+  },
+  {
+    src: "/media/cut-waves-profile.jpg",
+    alt: "Deep 360 waves with a sharp line-up — ondas 360 con contorno nítido",
+  },
+  {
+    src: "/media/cut-crisp-line.jpg",
+    alt: "High and tight fade with a crisp front line — high and tight con línea frontal precisa",
+  },
+  {
+    src: "/media/cut-textured-crop.jpg",
+    alt: "Wavy textured top with a clean taper — top ondulado con taper limpio",
+  },
+  {
+    src: "/media/cut-fresh-fade.jpg",
+    alt: "Fresh mid fade seen from the side — mid fade fresco, perfil lateral",
+  },
+  {
+    src: "/media/cut-design-lines.jpg",
+    alt: "Double slash design over a drop fade — diseño de líneas sobre drop fade",
+  },
 ];
 
 export default function Home() {
@@ -159,6 +209,11 @@ export default function Home() {
           <StatsStrip />
         </Reveal>
       </section>
+
+      {/* ——— Team ——— */}
+      <div className="border-t border-edge">
+        <TeamSection />
+      </div>
 
       {/* ——— Locations ——— */}
       <section aria-labelledby="locations-heading" className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">

@@ -6,6 +6,7 @@ import OpenBadge from "@/components/OpenBadge";
 import Reveal from "@/components/Reveal";
 
 type Step = 1 | 2 | 3 | 4 | 5;
+type Locale = "en" | "es";
 
 type Slot = {
   start: string;
@@ -14,6 +15,95 @@ type Slot = {
   label: string;
   duration_min: number;
 };
+
+const COPY = {
+  en: {
+    steps: [
+      { n: 1 as const, label: "Location" },
+      { n: 2 as const, label: "Service" },
+      { n: 3 as const, label: "Date & time" },
+      { n: 4 as const, label: "Confirm" },
+    ],
+    langToggle: "Español",
+    bookLoc: (name: string) => `Book ${name} →`,
+    changeLocation: "← Change location",
+    changeService: "← Change service",
+    changeTime: "← Change time",
+    servicesAt: (name: string) => (
+      <>
+        Services at <strong className="text-cream">{name}</strong>
+      </>
+    ),
+    pickDay: "Pick a day",
+    walkIn: "Walk-in",
+    availableTimes: "Available times",
+    satWalkInTitle: "Saturdays are walk-in only",
+    satWalkInBody:
+      "No appointments on Saturdays — first come, first served. Pick another day, or just drop by.",
+    satWalkInEs: "Sábados solo sin cita.",
+    loadingTimes: "Loading times…",
+    slotsConnectHint:
+      " — online booking is still connecting; call or text Esmi below.",
+    noTimes: "No open times this day — try another date.",
+    yourBooking: "Your booking",
+    name: "Name",
+    phone: "Phone",
+    phoneHint: "We'll text your confirmation here.",
+    email: "Email",
+    optional: "(optional)",
+    confirm: "Confirm booking",
+    booking: "Booking…",
+    booked: "You're booked",
+    confText: "Confirmation text on its way",
+    confTextEs: "Te enviamos un mensaje de confirmación",
+    addCalendar: "Add to Google Calendar",
+    bookAnother: "Book another appointment",
+    stepsAria: "Booking steps",
+  },
+  es: {
+    steps: [
+      { n: 1 as const, label: "Ubicación" },
+      { n: 2 as const, label: "Servicio" },
+      { n: 3 as const, label: "Fecha y hora" },
+      { n: 4 as const, label: "Confirmar" },
+    ],
+    langToggle: "English",
+    bookLoc: (name: string) => `Reservar ${name} →`,
+    changeLocation: "← Cambiar ubicación",
+    changeService: "← Cambiar servicio",
+    changeTime: "← Cambiar hora",
+    servicesAt: (name: string) => (
+      <>
+        Servicios en <strong className="text-cream">{name}</strong>
+      </>
+    ),
+    pickDay: "Elige un día",
+    walkIn: "Sin cita",
+    availableTimes: "Horarios disponibles",
+    satWalkInTitle: "Los sábados son solo sin cita",
+    satWalkInBody:
+      "No hay citas los sábados — por orden de llegada. Elige otro día, o ven sin cita.",
+    satWalkInEs: "Sábados solo sin cita.",
+    loadingTimes: "Cargando horarios…",
+    slotsConnectHint:
+      " — la reserva en línea se está conectando; llama o escribe a Esmi abajo.",
+    noTimes: "No hay horarios este día — prueba otra fecha.",
+    yourBooking: "Tu reserva",
+    name: "Nombre",
+    phone: "Teléfono",
+    phoneHint: "Te enviamos la confirmación por mensaje aquí.",
+    email: "Correo",
+    optional: "(opcional)",
+    confirm: "Confirmar reserva",
+    booking: "Reservando…",
+    booked: "¡Listo, estás reservado!",
+    confText: "Te enviamos un mensaje de confirmación",
+    confTextEs: "Confirmation text on its way",
+    addCalendar: "Agregar a Google Calendar",
+    bookAnother: "Reservar otra cita",
+    stepsAria: "Pasos de la reserva",
+  },
+} as const;
 
 function pad(n: number) {
   return n.toString().padStart(2, "0");
@@ -36,10 +126,10 @@ function nextBookableDates(loc: Location, count = 14): string[] {
   return out;
 }
 
-function formatDateLabel(ymd: string) {
+function formatDateLabel(ymd: string, locale: Locale) {
   const [y, m, day] = ymd.split("-").map(Number);
   const d = new Date(y, m - 1, day);
-  return d.toLocaleDateString("en-CA", {
+  return d.toLocaleDateString(locale === "es" ? "es-CA" : "en-CA", {
     weekday: "short",
     month: "short",
     day: "numeric",
@@ -90,6 +180,8 @@ function newIdempotencyKey() {
 
 export default function BookingWizard() {
   const honeypotId = useId();
+  const [locale, setLocale] = useState<Locale>("en");
+  const t = COPY[locale];
   const [step, setStep] = useState<Step>(1);
   const [loc, setLoc] = useState<Location | null>(null);
   const [svc, setSvc] = useState<Service | null>(null);
@@ -203,7 +295,7 @@ export default function BookingWizard() {
           name: name.trim(),
           phone: phone.trim(),
           email: email.trim() || undefined,
-          lang: "en",
+          lang: locale,
           idempotency_key: newIdempotencyKey(),
           website: honeypot,
         }),
@@ -218,7 +310,7 @@ export default function BookingWizard() {
         end: data.end || slot.end,
         location_name: data.location_name || loc.name,
         location_address: data.location_address || loc.fullAddress,
-        service_name: data.service_name || svc.name,
+        service_name: data.service_name || (locale === "es" ? svc.nameEs : svc.name),
       });
       setStep(5);
     } catch (err) {
@@ -228,20 +320,45 @@ export default function BookingWizard() {
     }
   }
 
-  const stepsMeta = [
-    { n: 1, label: "Location" },
-    { n: 2, label: "Service" },
-    { n: 3, label: "Date & time" },
-    { n: 4, label: "Confirm" },
-  ] as const;
+  const serviceLabel = (s: Service) => (locale === "es" ? s.nameEs : s.name);
 
   return (
-    <div className="mt-12">
+    <div className="mt-12" lang={locale}>
+      {/* EN / ES toggle — conversion path bilingual */}
+      <div className="mb-6 flex justify-center">
+        <div
+          className="inline-flex rounded-full border border-edge bg-surface p-1 text-xs font-bold uppercase tracking-wide"
+          role="group"
+          aria-label="Language / Idioma"
+        >
+          <button
+            type="button"
+            onClick={() => setLocale("en")}
+            aria-pressed={locale === "en"}
+            className={`rounded-full px-4 py-1.5 transition-colors ${
+              locale === "en" ? "bg-gold text-ink" : "text-muted hover:text-cream"
+            }`}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            onClick={() => setLocale("es")}
+            aria-pressed={locale === "es"}
+            className={`rounded-full px-4 py-1.5 transition-colors ${
+              locale === "es" ? "bg-gold text-ink" : "text-muted hover:text-cream"
+            }`}
+          >
+            ES
+          </button>
+        </div>
+      </div>
+
       {/* Step indicator */}
       {step < 5 && (
-        <nav aria-label="Booking steps" className="mb-8">
+        <nav aria-label={t.stepsAria} className="mb-8">
           <ol className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
-            {stepsMeta.map((s) => {
+            {t.steps.map((s) => {
               const active = step === s.n;
               const done = step > s.n;
               return (
@@ -290,7 +407,7 @@ export default function BookingWizard() {
                   <OpenBadge location={l} />
                 </div>
                 <p className="mt-4 text-sm font-bold uppercase tracking-wide text-gold">
-                  Book {l.name} →
+                  {t.bookLoc(l.name)}
                 </p>
               </button>
             </Reveal>
@@ -306,11 +423,9 @@ export default function BookingWizard() {
             onClick={() => setStep(1)}
             className="mb-4 text-sm text-muted underline-offset-2 hover:text-cream hover:underline"
           >
-            ← Change location
+            {t.changeLocation}
           </button>
-          <p className="mb-4 text-sm text-muted">
-            Services at <strong className="text-cream">{loc.name}</strong>
-          </p>
+          <p className="mb-4 text-sm text-muted">{t.servicesAt(loc.name)}</p>
           <ul className="grid gap-3 sm:grid-cols-2">
             {loc.services.map((s) => (
               <li key={s.id}>
@@ -320,12 +435,19 @@ export default function BookingWizard() {
                   className="flex h-full w-full flex-col rounded-lg border border-edge bg-surface p-5 text-left transition-colors hover:border-gold"
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <span className="font-bold text-cream">{s.name}</span>
+                    <span className="font-bold text-cream">{serviceLabel(s)}</span>
                     <span className="text-gold">{s.price}</span>
                   </div>
-                  <span lang="es" className="mt-1 text-sm italic text-muted">
-                    {s.nameEs}
-                  </span>
+                  {locale === "en" && (
+                    <span lang="es" className="mt-1 text-sm italic text-muted">
+                      {s.nameEs}
+                    </span>
+                  )}
+                  {locale === "es" && (
+                    <span lang="en" className="mt-1 text-sm italic text-muted">
+                      {s.name}
+                    </span>
+                  )}
                   <span className="mt-2 text-xs text-muted">{s.duration}</span>
                   {s.badge && (
                     <span className="mt-2 inline-block text-[10px] font-bold uppercase tracking-wider text-red">
@@ -347,16 +469,17 @@ export default function BookingWizard() {
             onClick={() => setStep(2)}
             className="mb-4 text-sm text-muted underline-offset-2 hover:text-cream hover:underline"
           >
-            ← Change service
+            {t.changeService}
           </button>
           <p className="mb-4 text-sm text-muted">
-            <strong className="text-cream">{svc.name}</strong> at{" "}
+            <strong className="text-cream">{serviceLabel(svc)}</strong>{" "}
+            {locale === "es" ? "en" : "at"}{" "}
             <strong className="text-cream">{loc.name}</strong>
           </p>
 
           <fieldset>
             <legend className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-blue-bright">
-              Pick a day
+              {t.pickDay}
             </legend>
             <div className="flex flex-wrap gap-2">
               {dateOptions.map((ymd) => {
@@ -375,10 +498,10 @@ export default function BookingWizard() {
                           : "border-edge bg-surface text-cream hover:border-gold"
                     }`}
                   >
-                    {formatDateLabel(ymd)}
+                    {formatDateLabel(ymd, locale)}
                     {walkIn && (
                       <span className="mt-0.5 block text-[10px] uppercase tracking-wide">
-                        Walk-in
+                        {t.walkIn}
                       </span>
                     )}
                   </button>
@@ -390,26 +513,27 @@ export default function BookingWizard() {
           {date && (
             <div className="mt-8">
               <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-blue-bright">
-                Available times
+                {t.availableTimes}
               </h3>
               {(walkInOnly || isWalkInOnly(loc, date)) && (
                 <aside
                   className="rounded-lg border-l-4 border-gold bg-surface p-5 text-sm text-muted"
                   role="status"
                 >
-                  <p className="font-bold text-cream">Saturdays are walk-in only</p>
+                  <p className="font-bold text-cream">{t.satWalkInTitle}</p>
                   <p className="mt-1">
-                    No appointments on Saturdays — first come, first served.{" "}
-                    <span lang="es" className="italic">
-                      Sábados solo sin cita.
-                    </span>{" "}
-                    Pick another day, or just drop by.
+                    {t.satWalkInBody}{" "}
+                    {locale === "en" && (
+                      <span lang="es" className="italic">
+                        {t.satWalkInEs}
+                      </span>
+                    )}
                   </p>
                 </aside>
               )}
               {loadingSlots && (
                 <p className="text-sm text-muted" role="status">
-                  Loading times…
+                  {t.loadingTimes}
                 </p>
               )}
               {slotsError && (
@@ -418,7 +542,7 @@ export default function BookingWizard() {
                   {slotsError.includes("not configured") ||
                   slotsError.includes("unreachable") ||
                   slotsError.includes("503")
-                    ? " — online booking is still connecting; call or text Esmi below."
+                    ? t.slotsConnectHint
                     : null}
                 </p>
               )}
@@ -427,9 +551,7 @@ export default function BookingWizard() {
                 !walkInOnly &&
                 !isWalkInOnly(loc, date) &&
                 slots.length === 0 && (
-                  <p className="text-sm text-muted">
-                    No open times this day — try another date.
-                  </p>
+                  <p className="text-sm text-muted">{t.noTimes}</p>
                 )}
               <div className="mt-3 flex flex-wrap gap-2">
                 {slots.map((s) => (
@@ -439,10 +561,13 @@ export default function BookingWizard() {
                     onClick={() => pickSlot(s)}
                     className="rounded border border-edge bg-surface px-4 py-2 text-sm font-bold text-cream transition-colors hover:border-gold hover:bg-gold hover:text-ink"
                   >
-                    {new Date(s.start).toLocaleTimeString("en-CA", {
-                      hour: "numeric",
-                      minute: "2-digit",
-                    })}
+                    {new Date(s.start).toLocaleTimeString(
+                      locale === "es" ? "es-CA" : "en-CA",
+                      {
+                        hour: "numeric",
+                        minute: "2-digit",
+                      },
+                    )}
                   </button>
                 ))}
               </div>
@@ -459,25 +584,28 @@ export default function BookingWizard() {
             onClick={() => setStep(3)}
             className="mb-4 text-sm text-muted underline-offset-2 hover:text-cream hover:underline"
           >
-            ← Change time
+            {t.changeTime}
           </button>
           <div className="mb-6 rounded-lg border border-edge bg-surface p-5 text-sm">
-            <p className="font-bold text-cream">Your booking</p>
+            <p className="font-bold text-cream">{t.yourBooking}</p>
             <ul className="mt-2 space-y-1 text-muted">
               <li>
-                <strong className="text-cream">{svc.name}</strong> · {svc.price}
+                <strong className="text-cream">{serviceLabel(svc)}</strong> · {svc.price}
               </li>
               <li>
                 {loc.name} — {loc.fullAddress}
               </li>
               <li>
-                {new Date(slot.start).toLocaleString("en-CA", {
-                  weekday: "long",
-                  month: "long",
-                  day: "numeric",
-                  hour: "numeric",
-                  minute: "2-digit",
-                })}
+                {new Date(slot.start).toLocaleString(
+                  locale === "es" ? "es-CA" : "en-CA",
+                  {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                  },
+                )}
               </li>
             </ul>
           </div>
@@ -485,7 +613,7 @@ export default function BookingWizard() {
           <form onSubmit={submitBooking} className="mx-auto max-w-md space-y-4">
             <div>
               <label htmlFor="bk-name" className="mb-1 block text-xs font-bold uppercase tracking-wide text-blue-bright">
-                Name
+                {t.name}
               </label>
               <input
                 id="bk-name"
@@ -499,7 +627,7 @@ export default function BookingWizard() {
             </div>
             <div>
               <label htmlFor="bk-phone" className="mb-1 block text-xs font-bold uppercase tracking-wide text-blue-bright">
-                Phone
+                {t.phone}
               </label>
               <input
                 id="bk-phone"
@@ -512,11 +640,14 @@ export default function BookingWizard() {
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full rounded border border-edge bg-ink px-4 py-3 text-cream outline-none focus:border-gold"
               />
-              <p className="mt-1 text-xs text-muted">We&apos;ll text your confirmation here.</p>
+              <p className="mt-1 text-xs text-muted">{t.phoneHint}</p>
             </div>
             <div>
               <label htmlFor="bk-email" className="mb-1 block text-xs font-bold uppercase tracking-wide text-blue-bright">
-                Email <span className="font-normal normal-case tracking-normal text-muted">(optional)</span>
+                {t.email}{" "}
+                <span className="font-normal normal-case tracking-normal text-muted">
+                  {t.optional}
+                </span>
               </label>
               <input
                 id="bk-email"
@@ -550,7 +681,7 @@ export default function BookingWizard() {
               disabled={submitting}
               className="w-full rounded bg-red px-8 py-4 text-center text-base font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-deep disabled:opacity-60"
             >
-              {submitting ? "Booking…" : "Confirm booking"}
+              {submitting ? t.booking : t.confirm}
             </button>
           </form>
         </div>
@@ -559,32 +690,38 @@ export default function BookingWizard() {
       {/* Step 5 — Success */}
       {step === 5 && confirmation && loc && svc && slot && (
         <div className="mx-auto max-w-lg text-center">
-          <p className="display text-3xl text-gold">You&apos;re booked</p>
-          <p className="mt-4 text-lg text-cream">
-            Confirmation text on its way
-          </p>
-          <p lang="es" className="mt-1 text-sm italic text-muted">
-            Te enviamos un mensaje de confirmación
+          <p className="display text-3xl text-gold">{t.booked}</p>
+          <p className="mt-4 text-lg text-cream">{t.confText}</p>
+          <p
+            lang={locale === "en" ? "es" : "en"}
+            className="mt-1 text-sm italic text-muted"
+          >
+            {t.confTextEs}
           </p>
           <div className="mt-6 rounded-lg border border-edge bg-surface p-6 text-left text-sm text-muted">
             <p>
-              <strong className="text-cream">{confirmation.service_name || svc.name}</strong>
+              <strong className="text-cream">
+                {confirmation.service_name || serviceLabel(svc)}
+              </strong>
             </p>
             <p className="mt-1">{confirmation.location_name || loc.name}</p>
             <p className="mt-1">
               {confirmation.when ||
-                new Date(slot.start).toLocaleString("en-CA", {
-                  weekday: "long",
-                  month: "long",
-                  day: "numeric",
-                  hour: "numeric",
-                  minute: "2-digit",
-                })}
+                new Date(slot.start).toLocaleString(
+                  locale === "es" ? "es-CA" : "en-CA",
+                  {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                  },
+                )}
             </p>
           </div>
           <a
             href={googleCalendarUrl({
-              title: `${confirmation.service_name || svc.name} — ${site.shortName}`,
+              title: `${confirmation.service_name || serviceLabel(svc)} — ${site.shortName}`,
               start: confirmation.start || slot.start,
               end: confirmation.end || slot.end,
               location: confirmation.location_address || loc.fullAddress,
@@ -594,7 +731,7 @@ export default function BookingWizard() {
             rel="noopener noreferrer"
             className="mt-6 inline-block rounded border border-gold px-6 py-3 text-sm font-bold uppercase tracking-wide text-gold transition-colors hover:bg-gold hover:text-ink"
           >
-            Add to Google Calendar
+            {t.addCalendar}
           </a>
           <button
             type="button"
@@ -611,7 +748,7 @@ export default function BookingWizard() {
             }}
             className="mt-4 block w-full text-sm text-muted underline-offset-2 hover:text-cream hover:underline"
           >
-            Book another appointment
+            {t.bookAnother}
           </button>
         </div>
       )}

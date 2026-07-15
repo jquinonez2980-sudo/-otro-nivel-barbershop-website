@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useReducedMotion,
@@ -16,10 +16,16 @@ import DominicanFlag from "@/components/DominicanFlag";
  * Full-viewport cinematic hero: looping interior footage of the Weston shop,
  * the brand mark, and a parallax drift as you scroll away.
  * Reduced motion gets the poster frame and a static logo.
+ *
+ * Performance: poster-first (WebP, preloaded in layout). Video is loaded with
+ * preload="none" and only swapped in after first paint / idle, so LCP is the
+ * lightweight poster. A play() fallback covers browsers that ignore autoPlay.
  */
 export default function HeroCinematic() {
   const ref = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const reduceMotion = useReducedMotion();
+  const [videoReady, setVideoReady] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -29,6 +35,60 @@ export default function HeroCinematic() {
   const mediaY = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-38%"]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
+  // Defer video mount until after LCP / idle so mobile data users get a fast poster first.
+  useEffect(() => {
+    if (reduceMotion) return;
+    let cancelled = false;
+    const enable = () => {
+      if (!cancelled) setVideoReady(true);
+    };
+    // Prefer idle callback; fall back to a short timeout after first paint.
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(enable, { timeout: 1200 });
+      return () => {
+        cancelled = true;
+        w.cancelIdleCallback?.(id);
+      };
+    }
+    const t = window.setTimeout(enable, 400);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+    };
+  }, [reduceMotion]);
+
+  // Reliable autoplay: attribute alone often leaves readyState 0 / paused.
+  useEffect(() => {
+    if (!videoReady || reduceMotion) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    const tryPlay = () => {
+      const p = video.play();
+      if (p !== undefined) {
+        p.catch(() => {
+          // Autoplay blocked (rare with muted+playsInline) — poster stays visible.
+        });
+      }
+    };
+
+    tryPlay();
+    video.addEventListener("loadeddata", tryPlay);
+    video.addEventListener("canplay", tryPlay);
+    // Retry once after a short delay in case the first play raced network.
+    const retry = window.setTimeout(tryPlay, 800);
+
+    return () => {
+      video.removeEventListener("loadeddata", tryPlay);
+      video.removeEventListener("canplay", tryPlay);
+      window.clearTimeout(retry);
+    };
+  }, [videoReady, reduceMotion]);
 
   return (
     <section
@@ -42,22 +102,25 @@ export default function HeroCinematic() {
         className="grain absolute inset-0 scale-[1.06]"
         aria-hidden="true"
       >
-        {reduceMotion ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src="/media/hero-poster.jpg"
-            alt=""
-            className="h-full w-full object-cover"
-          />
-        ) : (
+        {/* Poster always present as LCP element (and reduced-motion final frame) */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/media/hero-poster.webp"
+          alt=""
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {!reduceMotion && videoReady && (
           <video
-            className="h-full w-full object-cover"
+            ref={videoRef}
+            className="absolute inset-0 h-full w-full object-cover"
             autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
-            poster="/media/hero-poster.jpg"
+            preload="none"
+            poster="/media/hero-poster.webp"
           >
             <source src="/media/hero-loop.webm" type="video/webm" />
             <source src="/media/hero-loop.mp4" type="video/mp4" />
@@ -131,6 +194,14 @@ export default function HeroCinematic() {
             Call {site.phone}
           </a>
         </motion.div>
+        <motion.p
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.45 }}
+          className="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-cream/70"
+        >
+          Booked in 60 seconds · No deposit · Walk-ins welcome
+        </motion.p>
       </motion.div>
 
       {/* — scroll cue — */}
