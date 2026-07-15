@@ -274,7 +274,7 @@ export default function EsmiChat() {
 
   return (
     <>
-      {/* Launcher — sits above the mobile action bar */}
+      {/* Launcher — Esmi logo FAB (matches Coastline pattern); sits above mobile action bar */}
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -282,24 +282,22 @@ export default function EsmiChat() {
         aria-label={
           open ? "Close chat with Esmi" : "Chat with Esmi — English o español"
         }
-        className="fixed bottom-20 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-red text-white shadow-[0_4px_24px_rgba(0,0,0,0.5)] transition-transform hover:scale-105 hover:bg-red-deep md:bottom-6 md:right-6"
+        className="fixed bottom-20 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-cyan-400/25 bg-[linear-gradient(145deg,#06122A_0%,#0A2540_55%,#0D3A4A_100%)] p-2.5 text-white shadow-[0_8px_28px_rgba(10,37,64,0.45),0_0_20px_rgba(0,240,255,0.18)] transition-transform hover:scale-105 md:bottom-6 md:right-6"
       >
         {open ? (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
           </svg>
         ) : (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="M21 12a8 8 0 0 1-8 8H4l2.2-3.3A8 8 0 1 1 21 12Z"
-              stroke="currentColor"
-              strokeWidth="1.9"
-              strokeLinejoin="round"
-            />
-            <circle cx="9" cy="12" r="1" fill="currentColor" />
-            <circle cx="13" cy="12" r="1" fill="currentColor" />
-            <circle cx="17" cy="12" r="1" fill="currentColor" />
-          </svg>
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src="/images/esmi-logo.png"
+            alt=""
+            width={40}
+            height={20}
+            className="h-auto w-full object-contain"
+            draggable={false}
+          />
         )}
       </button>
 
@@ -311,24 +309,41 @@ export default function EsmiChat() {
           className="fixed bottom-36 right-4 z-50 flex h-[min(34rem,calc(100dvh-11rem))] w-[min(24rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-lg border border-edge bg-ink shadow-[0_12px_48px_rgba(0,0,0,0.65)] md:bottom-24 md:right-6"
         >
           {/* Header */}
-          <div className="flex items-center gap-3 border-b border-edge bg-surface px-4 py-3">
-            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold bg-ink">
-              <span className="display text-sm text-gold" aria-hidden="true">
-                E
-              </span>
+          <div className="flex items-center gap-3 border-b border-edge bg-[linear-gradient(135deg,#06122A_0%,#0A2540_60%,#0D3A4A_100%)] px-4 py-3">
+            <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-cyan-400/30 bg-[#06122A] p-1.5 shadow-[0_0_14px_rgba(0,240,255,0.22)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/esmi-logo.png"
+                alt=""
+                width={72}
+                height={35}
+                className="h-auto w-full object-contain"
+                draggable={false}
+              />
               <span
-                className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-surface bg-green-500"
+                className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#06122A] bg-green-500"
                 aria-hidden="true"
               />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-bold text-cream">Esmi</p>
-              <p className="truncate text-[11px] text-muted">
-                {locale === "es" ? "Recepcionista · 24/7" : "AI receptionist · 24/7"}
+              <p className="flex flex-wrap items-baseline gap-1.5 text-sm font-semibold text-[#EAF2FF]">
+                Esmi
+                <span className="text-[11px] font-medium uppercase tracking-[0.06em] text-[#EAF2FF]/55">
+                  {locale === "es" ? "Recepcionista IA" : "AI Receptionist"}
+                </span>
+              </p>
+              <p className="flex items-center gap-1.5 truncate text-[11px] text-[#EAF2FF]/75">
+                <span
+                  className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-green-500"
+                  aria-hidden="true"
+                />
+                {locale === "es"
+                  ? `En línea · ${site.shortName}`
+                  : `Online · ${site.shortName}`}
               </p>
             </div>
             <div
-              className="flex overflow-hidden rounded border border-edge text-[11px] font-bold"
+              className="flex overflow-hidden rounded border border-white/15 text-[11px] font-bold"
               role="group"
               aria-label="Chat language"
             >
@@ -341,7 +356,7 @@ export default function EsmiChat() {
                   className={
                     locale === l
                       ? "bg-gold px-2.5 py-1 uppercase text-ink"
-                      : "px-2.5 py-1 uppercase text-muted hover:text-cream"
+                      : "px-2.5 py-1 uppercase text-[#EAF2FF]/70 hover:text-[#EAF2FF]"
                   }
                 >
                   {l}
@@ -352,7 +367,7 @@ export default function EsmiChat() {
               type="button"
               onClick={resetConversation}
               aria-label={locale === "es" ? "Reiniciar conversación" : "Restart conversation"}
-              className="text-muted transition-colors hover:text-cream"
+              className="text-[#EAF2FF]/70 transition-colors hover:text-[#EAF2FF]"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path

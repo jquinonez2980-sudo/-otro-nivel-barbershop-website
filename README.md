@@ -23,10 +23,11 @@ Server-only env vars (Vercel project settings — never `NEXT_PUBLIC_`):
 | Variable | Purpose |
 |---|---|
 | `ESMI_API_URL` | Railway Esmi base URL (no trailing slash) |
-| `ESMI_BOOKING_SECRET` | Same value as Railway `BOOKING_API_SECRET` |
+| `CHAT_PROXY_SECRET` | **Required for chat widget.** Same value as Railway `CHAT_PROXY_SECRET` |
+| `ESMI_BOOKING_SECRET` | Same value as Railway `BOOKING_API_SECRET` (booking wizard) |
 | `ESMI_TENANT_ID` | Defaults to `otro-nivel` if unset |
 
-Proxies: `src/app/api/booking/availability` and `.../create` → Esmi `/bookings/*` with `X-Tenant-Id` + `X-Booking-Secret`.
+Proxies: `src/app/api/chat` → Esmi `/chat` with `X-Chat-Secret`; `src/app/api/booking/*` → Esmi `/bookings/*` with `X-Tenant-Id` + `X-Booking-Secret`.
 
 Until calendars and secrets are live, the wizard still renders; availability may error and users can fall back to phone.
 
