@@ -59,10 +59,10 @@ export const site = {
   taglineEs: "La barbería latina de Toronto",
   url: "https://otronivelbarbershop.com",
   /** Canonical public phone for both shops (NAP: never list 416-901-1218 on-site). */
-  phone: "(647) 340-7187",
-  phoneE164: "+16473407187",
-  phoneHref: "tel:+16473407187",
-  smsHref: "sms:+16473407187",
+  phone: "(437) 292-3949",
+  phoneE164: "+14372923949",
+  phoneHref: "tel:+14372923949",
+  smsHref: "sms:+14372923949",
   email: "info@otronivelbarbershop.com",
   instagram: {
     handle: "@aotronivelbarbershop02",

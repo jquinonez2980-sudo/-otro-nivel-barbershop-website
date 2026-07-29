@@ -10,7 +10,7 @@ import EsmiBanner from "@/components/EsmiBanner";
 export const metadata: Metadata = {
   title: "Contact & Locations",
   description:
-    "Two Toronto locations: 2851 Weston Rd and 2266 Keele St, North York. Hours, directions, free parking. Call or text (647) 340-7187 — answered 24/7 in English & Spanish.",
+    "Two Toronto locations: 2851 Weston Rd and 2266 Keele St, North York. Hours, directions, free parking. Call or text (437) 292-3949 — answered 24/7 in English & Spanish.",
   alternates: {
     canonical: "/contact",
   },
