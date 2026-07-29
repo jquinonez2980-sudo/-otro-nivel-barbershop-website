@@ -9,8 +9,9 @@ business owner controls — none of it can be done from code.
 | Field | Canonical value |
 |---|---|
 | **Legal / listing name** | `A Otro Nivel Barber Shop` |
-| **Phone (both shops)** | `(647) 340-7187` · `+1 647-340-7187` |
+| **Phone (both shops)** | Website live: `(437) 292-3949` · Confirm/align GBP if using `(647) 340-7187` |
 | **Do NOT use** | `416-901-1218` (old directory listing) · `"A Otro Nivel FT Barbershop"` as primary name |
+| **NAP rule** | One primary phone everywhere (site + both GBP listings + directories). Site source of truth: `website/src/data/site.ts`. |
 | **Weston address** | 2851 Weston Road, Toronto, ON M9M 2S1 |
 | **Keele address** | 2266 Keele Street, North York, ON M6M 3Y9 |
 | **Website (Weston GBP)** | `https://otronivelbarbershop.com/weston` |

@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { site } from "@/data/site";
 
 /** Bump this when page content actually changes — not on every deploy. */
-const CONTENT_LAST_MODIFIED = "2026-07-09";
+const CONTENT_LAST_MODIFIED = "2026-07-29";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return ["", "/services", "/contact", "/book", "/weston", "/keele"].map((path) => ({

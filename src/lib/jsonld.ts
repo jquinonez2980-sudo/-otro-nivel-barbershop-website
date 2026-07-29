@@ -16,6 +16,19 @@ function toIsoTime(decimalHour: number): string {
   return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
 }
 
+/** FAQPage JSON-LD from plain Q&A pairs (services page + location landings). */
+export function faqPageJsonLd(items: readonly { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: { "@type": "Answer", text: faq.a },
+    })),
+  };
+}
+
 export function locationJsonLd(loc: Location) {
   const graph: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -23,6 +36,7 @@ export function locationJsonLd(loc: Location) {
     "@id": `${site.url}/${loc.id}#shop`,
     name: `${site.legalName} — ${loc.name}`,
     alternateName: [site.name, site.shortName, "A Otro Nivel Barbershop"],
+    description: `Latino barbershop in ${loc.area} at ${loc.fullAddress}. Fades, haircuts, beard trims, and kids' cuts. Walk-ins welcome.`,
     image: `${site.url}${loc.photo}`,
     url: `${site.url}/${loc.id}`,
     hasMap: loc.mapsUrl,
@@ -42,6 +56,13 @@ export function locationJsonLd(loc: Location) {
       latitude: loc.geo.lat,
       longitude: loc.geo.lng,
     },
+    areaServed: [
+      { "@type": "City", name: loc.area },
+      // Keele is North York; still serve greater Toronto searches.
+      ...(loc.area !== "Toronto"
+        ? ([{ "@type": "City", name: "Toronto" }] as const)
+        : []),
+    ],
     openingHoursSpecification: loc.weekHours.map((h, day) => ({
       "@type": "OpeningHoursSpecification",
       dayOfWeek: DAY_NAMES[day],

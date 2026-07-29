@@ -145,9 +145,8 @@ export default function HeroCinematic() {
           Toronto · Weston Rd &amp; Keele St · Est. on another level
         </motion.p>
 
-        <h1 aria-label={`${site.shortName} — ${site.tagline}`}>
+        <h1>
           <motion.span
-            aria-hidden="true"
             className="block"
             initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.94 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -155,7 +154,7 @@ export default function HeroCinematic() {
           >
             <Image
               src="/images/logo-circle.webp"
-              alt=""
+              alt={`${site.legalName} — Latino barbershop Toronto & North York`}
               width={1024}
               height={1024}
               priority

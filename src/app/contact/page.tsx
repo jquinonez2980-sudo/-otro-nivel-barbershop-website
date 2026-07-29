@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { site, locations } from "@/data/site";
+import Link from "next/link";
+import { site, locations, seoCopy } from "@/data/site";
 import { locationsJsonLd } from "@/lib/jsonld";
 import OpenBadge from "@/components/OpenBadge";
 import SectionHeading from "@/components/SectionHeading";
@@ -8,9 +9,8 @@ import Reveal from "@/components/Reveal";
 import EsmiBanner from "@/components/EsmiBanner";
 
 export const metadata: Metadata = {
-  title: "Contact & Locations",
-  description:
-    "Two Toronto locations: 2851 Weston Rd and 2266 Keele St, North York. Hours, directions, free parking. Call or text (437) 292-3949 — answered 24/7 in English & Spanish.",
+  title: seoCopy.contact.title,
+  description: seoCopy.contact.description,
   alternates: {
     canonical: "/contact",
   },
@@ -27,12 +27,23 @@ export default function ContactPage() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <SectionHeading
           as="h1"
-          eyebrow="Contact & Locations"
+          eyebrow="Contact · Toronto & North York barbershops"
           title="Come through — we're easy to find"
           titleEs="Aquí te esperamos"
           center
           crest
         />
+        <p className="mx-auto mt-6 max-w-2xl text-center text-muted">
+          Two Latino barbershop locations —{" "}
+          <Link href="/weston" className="font-semibold text-gold underline-offset-4 hover:underline">
+            2851 Weston Road, Toronto
+          </Link>{" "}
+          and{" "}
+          <Link href="/keele" className="font-semibold text-gold underline-offset-4 hover:underline">
+            2266 Keele Street, North York
+          </Link>
+          . Walk-ins welcome every day.
+        </p>
 
         {/* Contact channels */}
         <Reveal>
@@ -164,14 +175,22 @@ export default function ContactPage() {
                     Free parking · Walk-ins welcome · Saturdays walk-in only
                   </p>
 
-                  <a
-                    href={loc.mapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block rounded bg-red px-6 py-3 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-deep"
-                  >
-                    Get Directions
-                  </a>
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <Link
+                      href={`/${loc.id}`}
+                      className="flex-1 rounded bg-red px-6 py-3 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-deep"
+                    >
+                      {loc.area} barbershop page →
+                    </Link>
+                    <a
+                      href={loc.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 rounded border border-edge px-6 py-3 text-center text-sm font-bold uppercase tracking-wide text-cream transition-colors hover:border-gold"
+                    >
+                      Get Directions
+                    </a>
+                  </div>
 
                   <iframe
                     src={loc.mapsEmbedUrl}

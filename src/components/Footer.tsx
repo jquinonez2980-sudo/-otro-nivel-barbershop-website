@@ -33,18 +33,35 @@ export default function Footer() {
             <li><Link href="/services" className="text-muted transition-colors hover:text-cream">Services &amp; Pricing</Link></li>
             <li><Link href="/contact" className="text-muted transition-colors hover:text-cream">Contact &amp; Locations</Link></li>
             <li><Link href="/book" className="text-muted transition-colors hover:text-cream">Book Now</Link></li>
+            <li>
+              <Link href="/weston" className="text-muted transition-colors hover:text-cream">
+                Toronto barbershop — Weston Rd
+              </Link>
+            </li>
+            <li>
+              <Link href="/keele" className="text-muted transition-colors hover:text-cream">
+                North York barbershop — Keele St
+              </Link>
+            </li>
           </ul>
         </nav>
 
         {locations.map((loc) => (
           <div key={loc.id}>
             <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-gold">
-              {loc.name} · {loc.area}
+              <Link
+                href={`/${loc.id}`}
+                className="transition-colors hover:text-cream"
+              >
+                {loc.name} · {loc.area} barbershop
+              </Link>
             </h2>
             <p className="text-sm text-muted">
-              {loc.address}
-              <br />
-              {loc.city} {loc.postalCode}
+              <Link href={`/${loc.id}`} className="transition-colors hover:text-cream">
+                {loc.address}
+                <br />
+                {loc.city} {loc.postalCode}
+              </Link>
             </p>
             <ul className="mt-3 space-y-1 text-sm text-muted">
               {loc.hoursDisplay.map((h) => (
@@ -53,6 +70,12 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+            <Link
+              href={`/${loc.id}`}
+              className="mt-3 inline-block text-sm font-semibold text-gold underline-offset-4 hover:underline"
+            >
+              {loc.area} shop details →
+            </Link>
           </div>
         ))}
       </div>

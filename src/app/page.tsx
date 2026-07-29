@@ -1,6 +1,7 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { site, featuredServices } from "@/data/site";
+import { site, featuredServices, seoCopy } from "@/data/site";
 import { locationsJsonLd } from "@/lib/jsonld";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
@@ -14,6 +15,17 @@ import VideoReel from "@/components/VideoReel";
 import StatsStrip from "@/components/StatsStrip";
 import ShopsShowcase from "@/components/ShopsShowcase";
 import TeamSection from "@/components/TeamSection";
+
+export const metadata: Metadata = {
+  title: { absolute: `${seoCopy.home.title} | ${site.name}` },
+  description: seoCopy.home.description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: seoCopy.home.title,
+    description: seoCopy.home.description,
+    url: site.url,
+  },
+};
 
 /** Bilingual alt text for image SEO (fades, designs, kids cuts, Toronto barbershop). */
 const WORK: WorkPhoto[] = [
@@ -219,11 +231,16 @@ export default function Home() {
       <section aria-labelledby="locations-heading" className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
         <Reveal>
           <SectionHeading
-            eyebrow="Two Shops, One Standard"
+            eyebrow="Two Barbershops — Toronto & North York"
             title="Walk in — we're close by"
-            titleEs="Dos locales en Toronto"
+            titleEs="Dos barberías en Toronto y North York"
           />
         </Reveal>
+        <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-muted">
+          Looking for a barber in Toronto or North York? Visit our Weston Road
+          flagship or our Keele Street shop — free parking, walk-ins welcome,
+          English &amp; Spanish at both chairs.
+        </p>
         <div className="mt-10">
           <ShopsShowcase />
         </div>

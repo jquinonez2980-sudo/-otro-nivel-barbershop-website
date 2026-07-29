@@ -54,10 +54,15 @@ export default function ShopsShowcase() {
               <div className="flex flex-col justify-between gap-6 p-6 sm:p-8">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.25em] text-blue-bright">
-                    {loc.area}
+                    {loc.area} barbershop
                   </p>
                   <h3 className="display mt-2 text-2xl text-cream">
-                    {loc.address}
+                    <Link
+                      href={`/${loc.id}`}
+                      className="transition-colors hover:text-gold"
+                    >
+                      {loc.address}
+                    </Link>
                   </h3>
                   <p className="mt-1 text-sm text-muted">
                     {loc.city} {loc.postalCode}
@@ -76,6 +81,12 @@ export default function ShopsShowcase() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row">
+                  <Link
+                    href={`/${loc.id}`}
+                    className="flex-1 rounded bg-red px-5 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-red-deep"
+                  >
+                    {loc.area} barbershop — {loc.name} shop →
+                  </Link>
                   <a
                     href={loc.mapsUrl}
                     target="_blank"
@@ -84,12 +95,6 @@ export default function ShopsShowcase() {
                   >
                     Get Directions
                   </a>
-                  <Link
-                    href="/contact#locations"
-                    className="flex-1 rounded border border-edge px-5 py-3 text-center text-sm font-semibold text-cream transition-colors hover:border-gold"
-                  >
-                    Hours &amp; Info
-                  </Link>
                 </div>
               </div>
             </article>

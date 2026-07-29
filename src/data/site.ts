@@ -55,10 +55,16 @@ export const site = {
   legalName: "A Otro Nivel Barber Shop",
   name: "Otro Nivel Barbershop",
   shortName: "Otro Nivel",
-  tagline: "The Premier Latino Barbershop in Toronto",
-  taglineEs: "La barbería latina de Toronto",
+  /** Visible brand tagline — includes primary local SEO cities. */
+  tagline: "The Premier Latino Barbershop in Toronto & North York",
+  taglineEs: "La barbería latina de Toronto y North York",
   url: "https://otronivelbarbershop.com",
-  /** Canonical public phone for both shops (NAP: never list 416-901-1218 on-site). */
+  /**
+   * Canonical on-site NAP phone for both shops.
+   * Never list 416-901-1218 (old directory listing).
+   * Note: GOOGLE-PROFILE.md lists (647) 340-7187 for GBP — owner must align
+   * Google Business Profile and the website to the same primary number.
+   */
   phone: "(437) 292-3949",
   phoneE164: "+14372923949",
   phoneHref: "tel:+14372923949",
@@ -333,7 +339,34 @@ export const faqs = [
     q: "Which location should I go to?",
     a: "Whichever is closer! Weston Road (Toronto) and Keele Street (North York) both take walk-ins every day. Hours and some prices differ slightly — check the tables above.",
   },
+  {
+    q: "Where can I find a Latino barbershop in Toronto?",
+    a: "A Otro Nivel Barber Shop is a Dominican-owned Latino barbershop at 2851 Weston Road, Toronto (M9M 2S1). Walk-ins welcome 7 days a week for fades, haircuts, beard trims, and kids' cuts — English and Spanish spoken.",
+  },
+  {
+    q: "Where is the best barbershop in North York for a fade?",
+    a: "Our North York shop is at 2266 Keele Street (M6M 3Y9). Same Otro Nivel standard as Toronto — expert fades, beard work, and kids' cuts — with free parking, walk-ins every day, and hours until 9 PM most nights.",
+  },
 ];
+
+/** Shared SEO copy driven from NAP so titles/meta cannot invent locations. */
+export const seoCopy = {
+  home: {
+    title: "Latino Barbershop in Toronto & North York — Fades, Beards & Walk-ins",
+    description:
+      "A Otro Nivel Barber Shop — premium Latino barbershop with two locations: 2851 Weston Road (Toronto) and 2266 Keele Street (North York). Expert fades, beard trims, kids' cuts. Walk-ins welcome. English & Spanish.",
+  },
+  services: {
+    title: "Barber Services & Pricing — Toronto & North York",
+    description:
+      "Haircuts, beard trims, kids' cuts and VIP Service. Clear pricing for our Toronto barbershop on Weston Road and North York shop on Keele Street. Walk-ins welcome.",
+  },
+  contact: {
+    title: "Contact & Barbershop Locations — Toronto & North York",
+    description:
+      "Find our barbers: 2851 Weston Rd, Toronto and 2266 Keele St, North York. Hours, directions, free parking. Call or text (437) 292-3949 — answered 24/7 in English & Spanish.",
+  },
+} as const;
 
 /** Hand-curated barbering videos from the shop's YouTube channel.
  *  The channel mixes in personal/viral clips, so NEVER auto-embed latest

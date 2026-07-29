@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { site, locations } from "@/data/site";
-import { locationJsonLd } from "@/lib/jsonld";
+import { locationJsonLd, faqPageJsonLd } from "@/lib/jsonld";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import OpenBadge from "@/components/OpenBadge";
@@ -22,40 +22,50 @@ function getLocation(slug: string) {
 
 const COPY = {
   weston: {
-    h1: "Barbershop on Weston Road, Toronto",
+    h1: "Toronto Barbershop on Weston Road",
+    title: "Toronto Barbershop on Weston Road — Fades & Walk-ins",
     intro:
-      "Our flagship shop at 2851 Weston Road — hexagon ceiling lights, gold chairs, and the full Otro Nivel experience. Home of the VIP Service. Walk in any day, or book a chair in 60 seconds.",
+      "Looking for a barber in Toronto? Our flagship Latino barbershop at 2851 Weston Road, Toronto, ON M9M 2S1 delivers expert fades, haircuts, beard trims, and kids' cuts. Hexagon lights, gold chairs, and the full Otro Nivel experience — home of the VIP Service. Walk in any day, or book a chair in 60 seconds.",
     faq: [
       {
-        q: "Where do I park at the Weston Road shop?",
-        a: "Free parking is available right at the shop — no meters, no fuss.",
+        q: "Where do I park at the Weston Road Toronto barbershop?",
+        a: "Free parking is available right at 2851 Weston Road, Toronto — no meters, no fuss.",
       },
       {
-        q: "Do I need an appointment at Weston?",
-        a: "Walk-ins are welcome every day. Appointments are available Monday–Friday and Sundays; Saturdays are walk-in only.",
+        q: "Do I need an appointment at the Toronto shop?",
+        a: "Walk-ins are welcome every day at our Weston Road barbershop. Appointments are available Monday–Friday and Sundays; Saturdays are walk-in only.",
       },
       {
-        q: "What's the VIP Service?",
-        a: "Weston's exclusive full treatment — haircut, hot towel service, and beard trim, about 1 hour 15 minutes for $60.",
+        q: "What's the VIP Service at Weston?",
+        a: "Weston's exclusive full treatment — haircut, hot towel service, and beard trim, about 1 hour 15 minutes for $60. Available only at our Toronto location.",
+      },
+      {
+        q: "Is this a good barbershop near Weston Road in Toronto?",
+        a: "Yes — A Otro Nivel is a Dominican-owned Latino barbershop on Weston Road serving Toronto with skin fades, taper fades, beard work, and kids' cuts. English and Spanish spoken.",
       },
     ],
   },
   keele: {
-    h1: "Barbershop on Keele Street, North York",
+    h1: "North York Barbershop on Keele Street",
+    title: "North York Barbershop on Keele Street — Fades & Walk-ins",
     intro:
-      "Our Keele Street shop at 2266 Keele — the same Otro Nivel standard with North York's friendliest prices and late hours until 9 PM most nights. Walk in any day, or book a chair in 60 seconds.",
+      "Looking for a barber in North York? Our Latino barbershop at 2266 Keele Street, North York, ON M6M 3Y9 delivers the same Otro Nivel standard with North York's friendliest prices and late hours until 9 PM most nights. Fades, haircuts, beard trims, and kids' cuts. Walk in any day, or book a chair in 60 seconds.",
     faq: [
       {
-        q: "Where do I park at the Keele Street shop?",
-        a: "Free parking is available at the shop.",
+        q: "Where do I park at the Keele Street North York barbershop?",
+        a: "Free parking is available at 2266 Keele Street, North York.",
       },
       {
-        q: "Do I need an appointment at Keele?",
-        a: "Walk-ins are welcome every day. Appointments are available Monday–Friday and Sundays; Saturdays are walk-in only.",
+        q: "Do I need an appointment at the North York shop?",
+        a: "Walk-ins are welcome every day at our Keele Street barbershop. Appointments are available Monday–Friday and Sundays; Saturdays are walk-in only.",
       },
       {
-        q: "How late is the Keele shop open?",
+        q: "How late is the North York barbershop open?",
         a: "Until 9:00 PM Tuesday through Saturday — one of the latest cuts you can get in North York.",
+      },
+      {
+        q: "Is this a good barbershop in North York for a fade?",
+        a: "Yes — our Keele Street shop specializes in clean fades, line-ups, and beard trims for clients across North York. Same quality as our Toronto flagship, with free parking and walk-ins welcome.",
       },
     ],
   },
@@ -71,9 +81,14 @@ export async function generateMetadata({
   if (!loc) return {};
   const copy = COPY[loc.id];
   return {
-    title: copy.h1,
-    description: `${site.legalName} at ${loc.fullAddress}. Fades, haircuts, beard trims and kids' cuts. Walk-ins welcome 7 days, free parking, English & Spanish. Book by phone or online.`,
+    title: copy.title,
+    description: `${site.legalName} barbershop at ${loc.fullAddress}. Expert fades, haircuts, beard trims and kids' cuts in ${loc.area}. Walk-ins welcome 7 days, free parking, English & Spanish. Book by phone or online.`,
     alternates: { canonical: `/${loc.id}` },
+    openGraph: {
+      title: copy.title,
+      description: `Barbershop in ${loc.area} at ${loc.fullAddress}. Walk-ins welcome.`,
+      url: `${site.url}/${loc.id}`,
+    },
   };
 }
 
@@ -93,16 +108,23 @@ export default async function LocationPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(locationJsonLd(loc)) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(copy.faq)) }}
+      />
 
       <SectionHeading
         as="h1"
-        eyebrow={`${loc.area} · Walk-ins welcome · Se habla español`}
+        eyebrow={`${loc.area} barbershop · Walk-ins welcome · Se habla español`}
         title={copy.h1}
-        titleEs={`Barbería en ${loc.address}`}
+        titleEs={`Barbería en ${loc.address}, ${loc.area}`}
         center
         crest
       />
       <p className="mx-auto mt-6 max-w-2xl text-center text-muted">{copy.intro}</p>
+      <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-muted">
+        {site.legalName} · {loc.fullAddress} · {site.phone}
+      </p>
 
       {/* Photo + status */}
       <Reveal>

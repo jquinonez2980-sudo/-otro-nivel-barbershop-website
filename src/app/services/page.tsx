@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { site, faqs } from "@/data/site";
+import { site, faqs, seoCopy, locations } from "@/data/site";
+import { faqPageJsonLd } from "@/lib/jsonld";
 import PricingTabs from "@/components/PricingTabs";
 import FAQ from "@/components/FAQ";
 import EsmiBanner from "@/components/EsmiBanner";
@@ -8,22 +9,11 @@ import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
-  title: "Services & Pricing",
-  description:
-    "Haircuts, beard trims, kids' cuts and the VIP Service. Clear pricing for both Toronto locations — Weston Rd and Keele St. Walk-ins welcome.",
+  title: seoCopy.services.title,
+  description: seoCopy.services.description,
   alternates: {
     canonical: "/services",
   },
-};
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.q,
-    acceptedAnswer: { "@type": "Answer", text: faq.a },
-  })),
 };
 
 export default function ServicesPage() {
@@ -31,22 +21,33 @@ export default function ServicesPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(faqs)) }}
       />
 
       <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
         <SectionHeading
           as="h1"
-          eyebrow="Services & Pricing"
+          eyebrow="Barber services — Toronto & North York"
           title="Every cut, a otro nivel"
           titleEs="Precios claros, cortes precisos"
           center
           crest
         />
         <p className="mx-auto mt-6 max-w-2xl text-center text-muted">
-          Pricing differs slightly between our two shops — pick your location
-          below. No deposit to book, no cancellation fee, and walk-ins are
-          always welcome.
+          Pricing differs slightly between our Toronto barbershop on Weston Road
+          and our North York shop on Keele Street — pick your location below. No
+          deposit to book, no cancellation fee, and walk-ins are always welcome.
+        </p>
+        <p className="mx-auto mt-4 flex max-w-xl flex-wrap justify-center gap-x-4 gap-y-2 text-center text-sm">
+          {locations.map((loc) => (
+            <Link
+              key={loc.id}
+              href={`/${loc.id}`}
+              className="font-semibold text-gold underline-offset-4 hover:underline"
+            >
+              {loc.area} barbershop — {loc.address} →
+            </Link>
+          ))}
         </p>
 
         <div className="mt-12">
