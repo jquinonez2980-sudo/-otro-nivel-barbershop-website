@@ -60,15 +60,21 @@ export const site = {
   taglineEs: "La barbería latina de Toronto y North York",
   url: "https://otronivelbarbershop.com",
   /**
-   * Canonical on-site NAP phone for both shops.
+   * Direct shop line — canonical on-site NAP phone for both shops, must
+   * match Google Business Profile's primary number for both locations.
    * Never list 416-901-1218 (old directory listing).
-   * Note: GOOGLE-PROFILE.md lists (647) 340-7187 for GBP — owner must align
-   * Google Business Profile and the website to the same primary number.
    */
-  phone: "(437) 292-3949",
-  phoneE164: "+14372923949",
-  phoneHref: "tel:+14372923949",
-  smsHref: "sms:+14372923949",
+  phone: "(647) 340-7187",
+  phoneE164: "+16473407187",
+  phoneHref: "tel:+16473407187",
+  /**
+   * Esmi's dedicated line — the AI receptionist answers calls/texts here
+   * 24/7 and books via VAPI. List as GBP's secondary/additional number.
+   */
+  esmiPhone: "(437) 292-3949",
+  esmiPhoneE164: "+14372923949",
+  esmiPhoneHref: "tel:+14372923949",
+  esmiSmsHref: "sms:+14372923949",
   email: "info@otronivelbarbershop.com",
   instagram: {
     handle: "@aotronivelbarbershop02",

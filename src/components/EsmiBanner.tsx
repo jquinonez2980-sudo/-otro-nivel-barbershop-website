@@ -23,13 +23,13 @@ export default function EsmiBanner() {
         </div>
         <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row md:flex-col">
           <a
-            href={site.phoneHref}
+            href={site.esmiPhoneHref}
             className="rounded bg-red px-6 py-3 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-deep"
           >
-            Call {site.phone}
+            Call {site.esmiPhone}
           </a>
           <a
-            href={site.smsHref}
+            href={site.esmiSmsHref}
             className="rounded border border-gold px-6 py-3 text-center text-sm font-bold uppercase tracking-wide text-gold transition-colors hover:bg-gold hover:text-ink"
           >
             Text to Book

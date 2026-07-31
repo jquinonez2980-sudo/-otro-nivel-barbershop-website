@@ -18,11 +18,17 @@ function readSrc(...parts: string[]) {
 }
 
 describe("local SEO — NAP & intent copy", () => {
-  it("exposes one canonical phone (no old 416 listing)", () => {
-    assert.equal(site.phone, "(437) 292-3949");
-    assert.equal(site.phoneE164, "+14372923949");
+  it("exposes the direct-line NAP phone (no old 416 listing)", () => {
+    assert.equal(site.phone, "(647) 340-7187");
+    assert.equal(site.phoneE164, "+16473407187");
     assert.doesNotMatch(site.phone, /416-901-1218/);
     assert.doesNotMatch(site.phoneE164, /4169011218/);
+  });
+
+  it("exposes Esmi's dedicated line, distinct from the direct line", () => {
+    assert.equal(site.esmiPhone, "(437) 292-3949");
+    assert.equal(site.esmiPhoneE164, "+14372923949");
+    assert.notEqual(site.esmiPhoneE164, site.phoneE164);
   });
 
   it("keeps Weston ↔ Toronto and Keele ↔ North York with real streets", () => {

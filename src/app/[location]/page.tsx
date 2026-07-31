@@ -150,7 +150,7 @@ export default async function LocationPage({
 
       {/* CTAs */}
       <Reveal>
-        <div className="mx-auto mt-8 flex max-w-lg flex-col gap-3 sm:flex-row">
+        <div className="mx-auto mt-8 flex max-w-2xl flex-col flex-wrap gap-3 sm:flex-row">
           <Link
             href="/book"
             className="flex-1 rounded bg-red px-8 py-4 text-center text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-deep"
@@ -162,6 +162,12 @@ export default async function LocationPage({
             className="flex-1 rounded border border-gold px-8 py-4 text-center text-sm font-bold uppercase tracking-wide text-gold transition-colors hover:bg-gold hover:text-ink"
           >
             Call {site.phone}
+          </a>
+          <a
+            href={site.esmiPhoneHref}
+            className="flex-1 rounded border border-gold px-8 py-4 text-center text-sm font-bold uppercase tracking-wide text-gold transition-colors hover:bg-gold hover:text-ink"
+          >
+            Call {site.esmi.name}
           </a>
         </div>
       </Reveal>

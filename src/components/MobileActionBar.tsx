@@ -2,14 +2,14 @@ import Link from "next/link";
 import { site } from "@/data/site";
 
 /**
- * Persistent bottom bar on mobile: the three actions a customer
+ * Persistent bottom bar on mobile: the actions a customer
  * deciding where to get cut *today* actually needs.
  */
 export default function MobileActionBar() {
   return (
     <nav
       aria-label="Quick actions"
-      className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-3 border-t border-edge bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-4 border-t border-edge bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
     >
       <a
         href={site.phoneHref}
@@ -24,6 +24,21 @@ export default function MobileActionBar() {
           />
         </svg>
         Call
+      </a>
+      <a
+        href={site.esmiPhoneHref}
+        className="flex h-16 flex-col items-center justify-center gap-1 text-xs font-semibold text-cream"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
+          <path
+            d="M8.5 10.5h7M8.5 14h4.5"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          />
+        </svg>
+        {site.esmi.name}
       </a>
       <Link
         href="/book"

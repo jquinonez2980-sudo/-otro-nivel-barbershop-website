@@ -279,7 +279,7 @@ export default function Home() {
           <p lang="es" className="-mt-3 text-xl italic text-white/90">
             ¿Listo para un corte fresco?
           </p>
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="flex flex-wrap justify-center gap-3">
             <Link
               href="/book"
               className="rounded bg-ink px-9 py-4 text-sm font-bold uppercase tracking-wide text-cream transition-colors hover:bg-black"
@@ -288,9 +288,15 @@ export default function Home() {
             </Link>
             <a
               href={site.phoneHref}
-              className="rounded border border-white/70 px-9 py-4 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-white/10"
+              className="rounded border border-white/70 px-6 py-4 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-white/10"
             >
               Call {site.phone}
+            </a>
+            <a
+              href={site.esmiPhoneHref}
+              className="rounded border border-white/70 px-6 py-4 text-sm font-bold uppercase tracking-wide text-white transition-colors hover:bg-white/10"
+            >
+              Call {site.esmi.name} {site.esmiPhone}
             </a>
           </div>
           <p className="text-sm font-medium text-white">

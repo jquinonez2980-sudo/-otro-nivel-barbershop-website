@@ -81,7 +81,7 @@ export default function HeroCinematic() {
         </h1>
 
         <div
-          className="rise-in mt-9 flex flex-col gap-3 sm:flex-row"
+          className="rise-in mt-9 flex flex-col flex-wrap gap-3 sm:flex-row"
           style={{ "--rise-delay": "0.18s" } as CSSProperties}
         >
           <Link
@@ -92,9 +92,15 @@ export default function HeroCinematic() {
           </Link>
           <a
             href={site.phoneHref}
-            className="rounded border border-cream/40 bg-ink/30 px-9 py-4 text-center text-sm font-bold uppercase tracking-wide text-cream backdrop-blur-sm transition-colors hover:border-cream hover:bg-cream/10"
+            className="rounded border border-cream/40 bg-ink/30 px-6 py-4 text-center text-sm font-bold uppercase tracking-wide text-cream backdrop-blur-sm transition-colors hover:border-cream hover:bg-cream/10"
           >
             Call {site.phone}
+          </a>
+          <a
+            href={site.esmiPhoneHref}
+            className="rounded border border-cream/40 bg-ink/30 px-6 py-4 text-center text-sm font-bold uppercase tracking-wide text-cream backdrop-blur-sm transition-colors hover:border-cream hover:bg-cream/10"
+          >
+            Call {site.esmi.name} {site.esmiPhone}
           </a>
         </div>
         <p

@@ -47,15 +47,27 @@ export default function ContactPage() {
 
         {/* Contact channels */}
         <Reveal>
-          <div className="mx-auto mt-10 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mx-auto mt-10 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-6">
             <a
               href={site.phoneHref}
               className="rounded-lg border border-edge bg-surface p-5 text-center transition-colors hover:border-gold/50"
             >
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-gold">
-                Call or Text
+                Call the Shop
               </p>
               <p className="mt-2 font-semibold text-cream">{site.phone}</p>
+              <p className="mt-1 text-xs text-muted">
+                Shop hours · English &amp; Español
+              </p>
+            </a>
+            <a
+              href={site.esmiPhoneHref}
+              className="rounded-lg border border-edge bg-surface p-5 text-center transition-colors hover:border-gold/50"
+            >
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gold">
+                Call or Text {site.esmi.name}
+              </p>
+              <p className="mt-2 font-semibold text-cream">{site.esmiPhone}</p>
               <p className="mt-1 text-xs text-muted">
                 Answered 24/7 · English &amp; Español
               </p>

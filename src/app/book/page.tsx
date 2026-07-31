@@ -36,22 +36,26 @@ export default function BookPage() {
       <Reveal>
         <div className="mx-auto mt-10 flex max-w-lg flex-col gap-3 sm:flex-row">
           <a
-            href={site.phoneHref}
+            href={site.esmiPhoneHref}
             className="flex-1 rounded bg-red px-8 py-5 text-center text-base font-bold uppercase tracking-wide text-white transition-colors hover:bg-red-deep"
           >
-            Call {site.phone}
+            Call {site.esmi.name} {site.esmiPhone}
           </a>
           <a
-            href={site.smsHref}
+            href={site.esmiSmsHref}
             className="flex-1 rounded border border-gold px-8 py-5 text-center text-base font-bold uppercase tracking-wide text-gold transition-colors hover:bg-gold hover:text-ink"
           >
             Text to Book
           </a>
         </div>
         <p className="mt-3 text-center text-sm text-muted">
-          Prefer to talk?{" "}
           <strong className="text-cream">{site.esmi.name}</strong> answers 24/7
-          in English or Spanish.
+          in English or Spanish and books instantly. Prefer a person? Call the
+          shop directly at{" "}
+          <a href={site.phoneHref} className="font-semibold text-gold underline-offset-4 hover:underline">
+            {site.phone}
+          </a>
+          .
         </p>
       </Reveal>
 
