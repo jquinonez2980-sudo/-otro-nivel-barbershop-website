@@ -60,7 +60,6 @@ export default function Header() {
             width={64}
             height={64}
             className="h-16 w-16"
-            priority
           />
           <span className="flex items-baseline gap-2">
             <span className="display text-2xl text-cream transition-colors group-hover:text-gold">

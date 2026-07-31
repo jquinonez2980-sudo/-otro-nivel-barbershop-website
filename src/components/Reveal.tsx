@@ -1,33 +1,33 @@
-"use client";
+import type { CSSProperties, ReactNode } from "react";
 
-import { motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
-
-/** Fade-up on scroll into view. Renders statically when the user prefers reduced motion. */
+/**
+ * Fade-up as the element scrolls into view.
+ *
+ * Pure CSS (see `.reveal` in globals.css) — a scroll-driven animation, so this
+ * stays a server component: no client bundle, no hydration, no observer. It
+ * degrades to plain visible content where scroll-driven animations aren't
+ * supported or the visitor prefers reduced motion.
+ */
 export default function Reveal({
   children,
   delay = 0,
   className,
 }: {
   children: ReactNode;
+  /** Cascade offset for siblings that scroll into view together, in seconds. */
   delay?: number;
   className?: string;
 }) {
-  const reduceMotion = useReducedMotion();
-
-  if (reduceMotion) {
-    return <div className={className}>{children}</div>;
-  }
-
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-64px" }}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+    <div
+      className={className ? `reveal ${className}` : "reveal"}
+      style={
+        delay
+          ? ({ "--reveal-stagger": `${Math.round(delay * 100)}%` } as CSSProperties)
+          : undefined
+      }
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

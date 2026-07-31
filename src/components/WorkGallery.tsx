@@ -1,9 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type WorkPhoto = { src: string; alt: string };
+
+/**
+ * Number of frames mounted up front. Chrome's native lazy-loading threshold is
+ * generous enough that all sixteen would otherwise be fetched during initial
+ * load — a few hundred KB for a strip nobody has scrolled to yet. The rest
+ * mount once the gallery approaches the viewport; every `<li>` is always
+ * present, so the scroll track never changes size.
+ */
+const EAGER_FRAMES = 4;
 
 /**
  * Horizontal snap gallery for the portfolio. Native scroll (touch/trackpad/keys)
@@ -13,6 +22,22 @@ export default function WorkGallery({ photos }: { photos: WorkPhoto[] }) {
   const trackRef = useRef<HTMLUListElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
+  const [mountAll, setMountAll] = useState(false);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setMountAll(true);
+        observer.disconnect();
+      },
+      { rootMargin: "400px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const updateEnds = () => {
     const el = trackRef.current;
@@ -39,13 +64,16 @@ export default function WorkGallery({ photos }: { photos: WorkPhoto[] }) {
             key={photo.src}
             className="relative aspect-[3/4] w-[72vw] shrink-0 snap-start overflow-hidden rounded-lg border border-edge sm:w-[44vw] lg:w-[23.5rem]"
           >
-            <Image
-              src={photo.src}
-              alt={photo.alt}
-              fill
-              sizes="(max-width: 640px) 72vw, (max-width: 1024px) 44vw, 376px"
-              className="object-cover transition-[transform,filter] duration-700 [filter:saturate(0.55)_contrast(1.05)] hover:scale-[1.04] hover:[filter:saturate(1)_contrast(1)]"
-            />
+            {(mountAll || i < EAGER_FRAMES) && (
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                sizes="(max-width: 640px) 72vw, (max-width: 1024px) 44vw, 376px"
+                quality={60}
+                className="object-cover transition-[transform,filter] duration-700 [filter:saturate(0.55)_contrast(1.05)] hover:scale-[1.04] hover:[filter:saturate(1)_contrast(1)]"
+              />
+            )}
             <span
               aria-hidden="true"
               className="display absolute left-3 top-2 text-lg text-cream/60"

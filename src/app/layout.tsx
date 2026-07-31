@@ -1,22 +1,38 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, Archivo } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { site } from "@/data/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileActionBar from "@/components/MobileActionBar";
-import EsmiChat from "@/components/EsmiChat";
+import EsmiChatLoader from "@/components/EsmiChatLoader";
 
-const anton = Anton({
+/**
+ * Self-hosted rather than pulled from `next/font/google`, because Google's
+ * `latin` subsets of these three faces came to 86 KB — all of it preloaded, all
+ * of it ahead of the hero still, which is the page's largest paint. Cut to the
+ * characters this site sets and to the 400–700 weights it uses, the same three
+ * faces are 40 KB. See scripts/subset-fonts.py; both families are OFL.
+ */
+const anton = localFont({
+  src: "./fonts/anton-latin.woff2",
   variable: "--font-anton",
   weight: "400",
-  subsets: ["latin"],
+  display: "swap",
 });
 
-const archivo = Archivo({
+const archivo = localFont({
+  src: [
+    { path: "./fonts/archivo-latin.woff2", weight: "400 700", style: "normal" },
+    // Italics are only ever set at 400, so this face is a static instance.
+    {
+      path: "./fonts/archivo-italic-latin.woff2",
+      weight: "400",
+      style: "italic",
+    },
+  ],
   variable: "--font-archivo",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -58,8 +74,17 @@ export default function RootLayout({
       className={`${anton.variable} ${archivo.variable} h-full antialiased`}
     >
       <head>
-        {/* Hero LCP: preload compressed poster before paint */}
-        <link rel="preload" as="image" href="/media/hero-poster.webp" type="image/webp" />
+        {/* Hero LCP: start the still as soon as the head is parsed. Only the
+            AVIF is preloaded — preloading the WebP too would make every
+            AVIF-capable browser fetch both; clients without AVIF pick it up
+            from the <picture> at the very top of the document. */}
+        <link
+          rel="preload"
+          as="image"
+          href="/media/hero-poster.avif"
+          type="image/avif"
+          fetchPriority="high"
+        />
       </head>
       <body className="flex min-h-full flex-col bg-ink text-cream">
         <a
@@ -74,7 +99,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <MobileActionBar />
-        <EsmiChat />
+        <EsmiChatLoader />
       </body>
     </html>
   );

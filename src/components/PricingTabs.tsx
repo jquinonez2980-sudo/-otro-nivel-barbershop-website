@@ -1,7 +1,6 @@
 "use client";
 
 import { useId, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
 import { locations } from "@/data/site";
 
 /**
@@ -11,7 +10,6 @@ import { locations } from "@/data/site";
 export default function PricingTabs() {
   const [active, setActive] = useState(0);
   const baseId = useId();
-  const reduceMotion = useReducedMotion();
 
   function focusTab(index: number) {
     setActive(index);
@@ -81,11 +79,7 @@ export default function PricingTabs() {
           className="mt-8"
         >
           {active === i && (
-            <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
+            <div key={active} className="rise-in">
               <p className="mb-4 text-sm text-muted">
                 {loc.fullAddress} · Free parking
               </p>
@@ -124,7 +118,7 @@ export default function PricingTabs() {
                   ))}
                 </tbody>
               </table>
-            </motion.div>
+            </div>
           )}
         </div>
       ))}

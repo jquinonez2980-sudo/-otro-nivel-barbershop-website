@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "motion/react";
 
 const STATS = [
   { value: 2, suffix: "", label: "Locations", labelEs: "Locales" },
@@ -11,12 +10,17 @@ const STATS = [
 ];
 
 function CountUp({ to, suffix, start }: { to: number; suffix: string; start: boolean }) {
-  const reduceMotion = useReducedMotion();
-  const [display, setDisplay] = useState(reduceMotion ? to : 0);
+  const [display, setDisplay] = useState(0);
 
   useEffect(() => {
-    if (!start || reduceMotion) return;
+    if (!start) return;
     let raf: number;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      raf = requestAnimationFrame(() => setDisplay(to));
+      return () => cancelAnimationFrame(raf);
+    }
+
     const t0 = performance.now();
     const dur = 1200;
     const tick = (t: number) => {
@@ -26,7 +30,7 @@ function CountUp({ to, suffix, start }: { to: number; suffix: string; start: boo
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [start, to, reduceMotion]);
+  }, [start, to]);
 
   return (
     <span className="display text-5xl text-gold sm:text-6xl">
@@ -44,7 +48,22 @@ function CountUp({ to, suffix, start }: { to: number; suffix: string; start: boo
 
 export default function StatsStrip() {
   const ref = useRef<HTMLUListElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setInView(true);
+        observer.disconnect();
+      },
+      { rootMargin: "-80px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <ul

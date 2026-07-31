@@ -291,7 +291,7 @@ export default function EsmiChat() {
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src="/images/esmi-logo.png"
+            src="/images/esmi-logo.webp"
             alt=""
             width={40}
             height={20}
@@ -313,7 +313,7 @@ export default function EsmiChat() {
             <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-cyan-400/30 bg-[#06122A] p-1.5 shadow-[0_0_14px_rgba(0,240,255,0.22)]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/esmi-logo.png"
+                src="/images/esmi-logo.webp"
                 alt=""
                 width={72}
                 height={35}

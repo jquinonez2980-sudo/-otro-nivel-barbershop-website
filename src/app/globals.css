@@ -90,6 +90,15 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.08'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* ——— Skip styling and layout for sections nobody has scrolled to yet ———
+   The homepage is ~12,000px tall; laying all of it out before first paint was
+   the largest single item on the main thread. `auto` intrinsic sizing means
+   the browser reuses each section's real height once it has measured it. */
+.defer-paint {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1200px;
+}
+
 /* ——— Outlined ghost type for oversized background words ——— */
 .text-outline {
   color: transparent;
@@ -111,6 +120,143 @@ body {
   }
   to {
     transform: scale(1.08);
+  }
+}
+
+/* ——— Entrance choreography ———
+   CSS replaces the old JS animation runtime. Keep the total sequence short:
+   anything still fading in after ~0.6s pushes Speed Index out. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rise-in-lg {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise-in {
+  animation: rise-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--rise-delay, 0s);
+}
+
+.rise-in-lg {
+  animation: rise-in-lg 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--rise-delay, 0s);
+}
+
+/* Scroll cue: fades in with the hero, then bobs. The bob is listed last so it
+   owns `transform` once its delay elapses. */
+@keyframes scroll-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.scroll-cue {
+  animation:
+    rise-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both,
+    scroll-bob 1.8s ease-in-out 0.9s infinite;
+}
+
+/* ——— Scroll reveal & parallax ———
+   Driven by scroll-driven animations, so there is no JS, no observer and no
+   main-thread work involved. Where the feature is unsupported the elements
+   simply render in their final state — nothing is ever left hidden. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: rise-in 1s linear both;
+      animation-timeline: view();
+      /* --reveal-stagger cascades grid items that enter together. */
+      animation-range: entry 0% cover calc(20% + var(--reveal-stagger, 0%));
+    }
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-media {
+      animation: hero-media-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+
+    .hero-copy {
+      animation: hero-copy-lift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+
+    .parallax-slow {
+      animation: parallax-slow linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    .parallax-drift {
+      animation: parallax-drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+@keyframes hero-media-drift {
+  from {
+    transform: scale(1.06) translateY(0);
+  }
+  to {
+    transform: scale(1.06) translateY(16%);
+  }
+}
+
+@keyframes hero-copy-lift {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-38%);
+    opacity: 0;
+  }
+}
+
+@keyframes parallax-slow {
+  from {
+    transform: translateY(-8%);
+  }
+  to {
+    transform: translateY(8%);
+  }
+}
+
+@keyframes parallax-drift {
+  from {
+    transform: translateX(4%);
+  }
+  to {
+    transform: translateX(-8%);
   }
 }
 

@@ -109,7 +109,7 @@ export default function Home() {
       <Marquee />
 
       {/* ——— Trust strip ——— */}
-      <section aria-label="Why Otro Nivel" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <section aria-label="Why Otro Nivel" className="defer-paint mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <Reveal>
           <TrustStrip />
         </Reveal>
@@ -119,7 +119,7 @@ export default function Home() {
       <ExperienceSection />
 
       {/* ——— Services teaser ——— */}
-      <section aria-labelledby="services-teaser" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <section aria-labelledby="services-teaser" className="defer-paint mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <SectionHeading
@@ -143,7 +143,7 @@ export default function Home() {
                 className="group flex h-full flex-col rounded-lg border border-edge bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/50 hover:bg-surface-2 hover:shadow-[0_12px_40px_-12px_rgba(201,162,75,0.25)]"
               >
                 <div className="flex items-start justify-between">
-                  <span aria-hidden="true" className="display text-sm text-muted/60">
+                  <span aria-hidden="true" className="display text-sm text-muted/80">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   {service.badge && (
@@ -167,7 +167,7 @@ export default function Home() {
       {/* ——— Work gallery ——— */}
       <section
         aria-labelledby="work-heading"
-        className="border-y border-edge bg-surface/40 py-20"
+        className="defer-paint border-y border-edge bg-surface/40 py-20"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Reveal>
@@ -202,7 +202,7 @@ export default function Home() {
       {/* ——— YouTube reel ——— */}
       <section
         aria-label="Videos from our YouTube channel"
-        className="mx-auto max-w-6xl px-4 py-20 sm:px-6"
+        className="defer-paint mx-auto max-w-6xl px-4 py-20 sm:px-6"
       >
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -217,24 +217,24 @@ export default function Home() {
       </section>
 
       {/* ——— Numbers ——— */}
-      <section aria-label="Otro Nivel by the numbers" className="mx-auto max-w-6xl border-t border-edge px-4 py-20 sm:px-6">
+      <section aria-label="Otro Nivel by the numbers" className="defer-paint mx-auto max-w-6xl border-t border-edge px-4 py-20 sm:px-6">
         <Reveal>
           <StatsStrip />
         </Reveal>
       </section>
 
       {/* ——— Reviews ——— */}
-      <div className="border-t border-edge bg-surface/40">
+      <div className="defer-paint border-t border-edge bg-surface/40">
         <Testimonials />
       </div>
 
       {/* ——— Team ——— */}
-      <div className="border-t border-edge">
+      <div className="defer-paint border-t border-edge">
         <TeamSection />
       </div>
 
       {/* ——— Locations ——— */}
-      <section aria-labelledby="locations-heading" className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
+      <section aria-labelledby="locations-heading" className="defer-paint mx-auto max-w-6xl px-4 pb-20 sm:px-6">
         <Reveal>
           <SectionHeading
             eyebrow="Two Barbershops — Toronto & North York"
@@ -253,19 +253,20 @@ export default function Home() {
       </section>
 
       {/* ——— Esmi ——— */}
-      <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
+      <section className="defer-paint mx-auto max-w-6xl px-4 pb-20 sm:px-6">
         <Reveal>
           <EsmiBanner />
         </Reveal>
       </section>
 
       {/* ——— Final CTA ——— */}
-      <section aria-labelledby="cta-heading" className="relative overflow-hidden">
+      <section aria-labelledby="cta-heading" className="defer-paint relative overflow-hidden">
         <Image
           src="/media/keele-hall-2.jpg"
           alt=""
           fill
           sizes="100vw"
+          quality={50}
           className="object-cover"
           aria-hidden="true"
         />

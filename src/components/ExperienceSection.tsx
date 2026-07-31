@@ -1,52 +1,37 @@
-"use client";
-
 import Image from "next/image";
-import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import DominicanFlag from "@/components/DominicanFlag";
 
 /**
  * Editorial statement over a slow-parallax full-bleed interior shot,
  * with an oversized outlined ghost word drifting behind the copy.
+ *
+ * Both parallax layers are CSS scroll-driven animations (`.parallax-*` in
+ * globals.css), so this renders on the server and costs no client JS.
  */
 export default function ExperienceSection() {
-  const ref = useRef<HTMLElement>(null);
-  const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const ghostX = useTransform(scrollYProgress, [0, 1], ["4%", "-8%"]);
-
   return (
     <section
-      ref={ref}
       aria-labelledby="experience-heading"
-      className="relative overflow-hidden py-28 sm:py-40"
+      className="defer-paint relative overflow-hidden py-28 sm:py-40"
     >
-      <motion.div
-        style={reduceMotion ? undefined : { y: imgY }}
-        className="absolute inset-[-10%_0]"
-        aria-hidden="true"
-      >
+      <div className="parallax-slow absolute inset-[-10%_0]" aria-hidden="true">
         <Image
           src="/media/weston-gold-chairs.jpg"
           alt=""
           fill
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, 1400px"
+          quality={30}
           className="object-cover"
         />
         <div className="absolute inset-0 bg-ink/78" />
-      </motion.div>
+      </div>
 
-      <motion.span
-        style={reduceMotion ? undefined : { x: ghostX }}
+      <span
         aria-hidden="true"
-        className="display text-outline pointer-events-none absolute top-8 left-0 whitespace-nowrap text-[22vw] leading-none opacity-60 select-none"
+        className="display text-outline parallax-drift pointer-events-none absolute top-8 left-0 whitespace-nowrap text-[22vw] leading-none opacity-60 select-none"
       >
         A OTRO NIVEL
-      </motion.span>
+      </span>
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
         <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-blue-bright">
