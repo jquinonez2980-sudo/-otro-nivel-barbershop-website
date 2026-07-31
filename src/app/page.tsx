@@ -15,6 +15,7 @@ import VideoReel from "@/components/VideoReel";
 import StatsStrip from "@/components/StatsStrip";
 import ShopsShowcase from "@/components/ShopsShowcase";
 import TeamSection from "@/components/TeamSection";
+import Testimonials from "@/components/Testimonials";
 
 export const metadata: Metadata = {
   title: { absolute: `${seoCopy.home.title} | ${site.name}` },
@@ -221,6 +222,11 @@ export default function Home() {
           <StatsStrip />
         </Reveal>
       </section>
+
+      {/* ——— Reviews ——— */}
+      <div className="border-t border-edge bg-surface/40">
+        <Testimonials />
+      </div>
 
       {/* ——— Team ——— */}
       <div className="border-t border-edge">

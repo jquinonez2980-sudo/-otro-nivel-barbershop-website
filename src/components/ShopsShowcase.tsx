@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { locations } from "@/data/site";
+import { locations, site } from "@/data/site";
+import GoogleRatingBadge from "@/components/GoogleRatingBadge";
 import OpenBadge from "@/components/OpenBadge";
 import Reveal from "@/components/Reveal";
 
@@ -67,8 +68,13 @@ export default function ShopsShowcase() {
                   <p className="mt-1 text-sm text-muted">
                     {loc.city} {loc.postalCode}
                   </p>
-                  <div className="mt-4">
+                  <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
                     <OpenBadge location={loc} />
+                    <GoogleRatingBadge
+                      ratingValue={site.reviews[loc.id].ratingValue}
+                      reviewCount={site.reviews[loc.id].reviewCount}
+                      mapsUrl={loc.mapsUrl}
+                    />
                   </div>
                   <p className="mt-4 text-sm text-cream/80">
                     {media.note}{" "}

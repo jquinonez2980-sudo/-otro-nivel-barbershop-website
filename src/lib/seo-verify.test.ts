@@ -59,8 +59,9 @@ describe("local SEO — NAP & intent copy", () => {
     assert.match(northYork!.a, /2266 Keele Street/);
   });
 
-  it("does not invent review aggregate stats", () => {
-    assert.equal(site.reviews, null);
+  it("uses verified per-location Google review stats (no invented numbers)", () => {
+    assert.deepEqual(site.reviews.weston, { ratingValue: "4.9", reviewCount: 148 });
+    assert.deepEqual(site.reviews.keele, { ratingValue: "4.9", reviewCount: 465 });
   });
 });
 
@@ -85,16 +86,21 @@ describe("JSON-LD — BarberShop per location", () => {
       const hours = graph.openingHoursSpecification as unknown[];
       assert.equal(hours.length, 7);
 
-      assert.equal(graph.aggregateRating, undefined);
+      const rating = graph.aggregateRating as Record<string, unknown>;
+      assert.equal(rating["@type"], "AggregateRating");
+      assert.equal(rating.ratingValue, site.reviews[loc.id].ratingValue);
+      assert.equal(rating.reviewCount, site.reviews[loc.id].reviewCount);
       assert.ok(Array.isArray(graph.areaServed));
     });
   }
 
-  it("locationsJsonLd covers both shops without aggregateRating", () => {
+  it("locationsJsonLd covers both shops with verified aggregateRating", () => {
     assert.equal(locationsJsonLd.length, 2);
     for (const g of locationsJsonLd) {
       assert.equal(g["@type"], "BarberShop");
-      assert.equal(g.aggregateRating, undefined);
+      const rating = g.aggregateRating as Record<string, unknown>;
+      assert.equal(rating["@type"], "AggregateRating");
+      assert.ok(Number(rating.reviewCount) > 0);
     }
   });
 

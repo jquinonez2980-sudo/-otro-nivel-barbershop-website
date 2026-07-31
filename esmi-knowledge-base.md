@@ -28,7 +28,7 @@
 - **Address:** 2266 Keele Street, North York, ON M6M 3Y9
 - **Parking:** Free parking available
 
-**Main phone:** (647) 340-7187
+**Main phone:** (437) 292-3949
 
 ---
 
@@ -192,10 +192,10 @@ Esmi should politely decline and redirect for:
 ## 11. SMS CONFIRMATION TEMPLATES
 
 **Booking confirmation (EN):**
-> Hi [Name]! Your appointment at Otro Nivel Barbershop ([Location]) is confirmed for [Day], [Date] at [Time]. Free parking available. Questions? Call (647) 340-7187. See you soon! ✂️
+> Hi [Name]! Your appointment at Otro Nivel Barbershop ([Location]) is confirmed for [Day], [Date] at [Time]. Free parking available. Questions? Call (437) 292-3949. See you soon! ✂️
 
 **Booking confirmation (ES):**
-> ¡Hola [Name]! Tu cita en Otro Nivel Barbershop ([Ubicación]) está confirmada para el [Día], [Fecha] a las [Hora]. Hay estacionamiento gratis. ¿Preguntas? Llama al (647) 340-7187. ¡Nos vemos! ✂️
+> ¡Hola [Name]! Tu cita en Otro Nivel Barbershop ([Ubicación]) está confirmada para el [Día], [Fecha] a las [Hora]. Hay estacionamiento gratis. ¿Preguntas? Llama al (437) 292-3949. ¡Nos vemos! ✂️
 
 ---
 
@@ -205,7 +205,7 @@ Send **same evening after a finished appointment** (or next morning if late cut)
 Get review short links from each Google Business Profile → Ask for reviews.
 Paste links into `website/src/data/site.ts` → `site.googleReviewUrl`.
 
-**Canonical phone for all SMS:** (647) 340-7187 only — never 416-901-1218.
+**Canonical phone for all SMS:** (437) 292-3949 only — never 416-901-1218 or 647-340-7187.
 
 **Post-visit review (EN):**
 > Thanks for coming to Otro Nivel — hope you love the cut. Leave us a quick Google review: [REVIEW_LINK]
@@ -215,7 +215,7 @@ Paste links into `website/src/data/site.ts` → `site.googleReviewUrl`.
 
 **NAP reminder for Esmi (never invent alternate phones/names):**
 - Name: A Otro Nivel Barber Shop
-- Phone: (647) 340-7187
+- Phone: (437) 292-3949
 - Weston: 2851 Weston Road, Toronto, ON M9M 2S1
 - Keele: 2266 Keele Street, North York, ON M6M 3Y9
 - Website: otronivelbarbershop.com
@@ -228,9 +228,8 @@ Paste links into `website/src/data/site.ts` → `site.googleReviewUrl`.
 - [ ] Barber names for each location (for "ask for a specific barber" scenarios)
 - [ ] Confirm: bilingual English/Spanish → YES (field got misaligned in form)
 - [ ] Keele-specific hours cross-check with client
-- [ ] Number porting confirmation for (647) 340-7187
-- [ ] Paste GBP review short links into site.googleReviewUrl + enable Esmi post-visit SMS
-- [ ] Claim/align both Google Business Profiles (see GOOGLE-PROFILE.md)
+- [x] Paste GBP review short links into site.googleReviewUrl (done 2026-07-30) — enabling Esmi post-visit SMS still pending
+- [x] Claim/align both Google Business Profiles — name + phone + booking link fixed 2026-07-30 (see GOOGLE-PROFILE.md); Weston GBP still lists city as "North York" not "Toronto", unresolved
 
 ---
 *Last updated: 2026-07-15 | Orchelix x Otro Nivel Barbershop*

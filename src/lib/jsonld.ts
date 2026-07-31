@@ -72,12 +72,13 @@ export function locationJsonLd(loc: Location) {
     sameAs: [site.instagram.url, site.tiktok.url, site.facebook.url, site.youtube.url],
   };
 
-  // Only emit aggregateRating when real review stats are configured (never invent).
-  if (site.reviews?.ratingValue && site.reviews?.reviewCount) {
+  // Only emit aggregateRating when real per-shop review stats exist (never invent).
+  const stats = site.reviews[loc.id];
+  if (stats) {
     graph.aggregateRating = {
       "@type": "AggregateRating",
-      ratingValue: site.reviews.ratingValue,
-      reviewCount: site.reviews.reviewCount,
+      ratingValue: stats.ratingValue,
+      reviewCount: stats.reviewCount,
       bestRating: 5,
       worstRating: 1,
     };

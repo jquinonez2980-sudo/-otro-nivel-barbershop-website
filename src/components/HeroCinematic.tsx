@@ -9,8 +9,9 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
-import { site } from "@/data/site";
+import { reviewsSummary, site } from "@/data/site";
 import DominicanFlag from "@/components/DominicanFlag";
+import GoogleRatingBadge from "@/components/GoogleRatingBadge";
 
 /**
  * Full-viewport cinematic hero: looping interior footage of the Weston shop,
@@ -144,6 +145,18 @@ export default function HeroCinematic() {
           <DominicanFlag size={20} title="Dominican-owned" className="rounded-[1px]" />
           Toronto · Weston Rd &amp; Keele St · Est. on another level
         </motion.p>
+
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.25 }}
+        >
+          <GoogleRatingBadge
+            ratingValue={reviewsSummary.ratingValue}
+            reviewCount={reviewsSummary.reviewCount}
+            className="mb-3 text-cream/90"
+          />
+        </motion.div>
 
         <h1>
           <motion.span

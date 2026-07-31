@@ -37,7 +37,7 @@ const COPY = {
       },
       {
         q: "What's the VIP Service at Weston?",
-        a: "Weston's exclusive full treatment — haircut, hot towel service, and beard trim, about 1 hour 15 minutes for $60. Available only at our Toronto location.",
+        a: "Weston's exclusive full treatment — haircut, hot towel service, cream facial, and beard trim, about 45 minutes for $60. Available only at our Toronto location.",
       },
       {
         q: "Is this a good barbershop near Weston Road in Toronto?",

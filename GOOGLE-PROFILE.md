@@ -8,8 +8,8 @@ business owner controls — none of it can be done from code.
 
 | Field | Canonical value |
 |---|---|
-| **Legal / listing name** | `A Otro Nivel Barber Shop` |
-| **Phone (both shops)** | Website live: `(437) 292-3949` · Confirm/align GBP if using `(647) 340-7187` |
+| **Legal / listing name** | `A Otro Nivel Barber Shop` — fixed on both GBP listings 2026-07-30 (pending Google review) |
+| **Phone (both shops)** | `(437) 292-3949` (Esmi, confirmed live) — GBP primary phone updated on both listings 2026-07-30 (pending Google review) |
 | **Do NOT use** | `416-901-1218` (old directory listing) · `"A Otro Nivel FT Barbershop"` as primary name |
 | **NAP rule** | One primary phone everywhere (site + both GBP listings + directories). Site source of truth: `website/src/data/site.ts`. |
 | **Weston address** | 2851 Weston Road, Toronto, ON M9M 2S1 |
@@ -38,12 +38,12 @@ For **each** location at [business.google.com](https://business.google.com)
 ### Contact
 | Location | Website | Phone |
 |---|---|---|
-| Weston Rd profile | `https://otronivelbarbershop.com/weston` | `(647) 340-7187` |
-| Keele St profile | `https://otronivelbarbershop.com/keele` | `(647) 340-7187` |
+| Weston Rd profile | `https://otronivelbarbershop.com/weston` | `(437) 292-3949` ✅ done 2026-07-30 |
+| Keele St profile | `https://otronivelbarbershop.com/keele` | `(437) 292-3949` ✅ done 2026-07-30 (secondary `(647) 569-1194` kept) |
 
-If Keele truly has a separate line at 416-901-1218 that must stay for calls,
-document it as a **secondary** phone in GBP only — never as the primary, and
-update the website only after the owner confirms. Default: one number, both shops.
+Keele's `(647) 569-1194` was already configured as a secondary phone in GBP —
+left as-is since a secondary line is allowed by this rule. Only the primary
+was changed. Chat/SMS numbers on both listings were also updated to match.
 
 ### Hours, descriptions, photos
 - Hours must match `website/src/data/site.ts` (Weston closes 8 PM most nights; Keele 9 PM).
@@ -88,9 +88,9 @@ Search for: `"A Otro Nivel FT"` and `416-901-1218` and correct or request remova
 
 ## 4. Esmi post-visit review SMS (feeds local SEO)
 
-1. In each GBP: **Ask for reviews** → copy the short review URL.
-2. Paste into `website/src/data/site.ts` → `site.googleReviewUrl.weston` / `.keele`.
-3. Add to Esmi SMS templates (receptionist tenant config):
+1. In each GBP: **Ask for reviews** → copy the short review URL. ✅ done 2026-07-30
+2. Paste into `website/src/data/site.ts` → `site.googleReviewUrl.weston` / `.keele`. ✅ done 2026-07-30
+3. Add to Esmi SMS templates (receptionist tenant config) — still needs to be wired into the live Esmi/VAPI tenant config, not just this doc:
 
 **English (after appointment / same evening):**
 > Thanks for coming to Otro Nivel — hope you love the cut. Leave us a quick Google review: {review_link}
@@ -98,9 +98,10 @@ Search for: `"A Otro Nivel FT"` and `416-901-1218` and correct or request remova
 **Spanish:**
 > Gracias por visitarnos en Otro Nivel — ojalá te encante el corte. Déjanos una reseña en Google: {review_link}
 
-Reply to every review (Google rewards engagement). Once you have solid volume,
-set `site.reviews = { ratingValue: "4.9", reviewCount: N }` so JSON-LD emits
-`aggregateRating`.
+Reply to every review (Google rewards engagement). `site.reviews` is now set
+with verified per-shop stats (Weston 4.9★/148, Keele 4.9★/465, checked
+2026-07-30) — JSON-LD `aggregateRating` is live per shop. Re-check these
+numbers periodically as review counts grow.
 
 ---
 

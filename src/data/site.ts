@@ -101,15 +101,27 @@ export const site = {
    * Used by Esmi post-visit SMS and contact CTAs once configured.
    */
   googleReviewUrl: {
-    weston: "" as string,
-    keele: "" as string,
+    weston: "https://g.page/r/CUTNDAMw16SqEBM/review",
+    keele: "https://g.page/r/CSO_S7k7Pm8gEBM/review",
   },
   /**
-   * Set from Google Business Profile when review volume is solid.
-   * JSON-LD aggregateRating is emitted only when both fields are set.
+   * Verified per-location Google review stats, pulled directly from each
+   * shop's Google Business Profile (checked 2026-07-30). JSON-LD
+   * aggregateRating is emitted per shop from these — never invent numbers.
    */
-  reviews: null as null | { ratingValue: string; reviewCount: number },
+  reviews: {
+    weston: { ratingValue: "4.9", reviewCount: 148 },
+    keele: { ratingValue: "4.9", reviewCount: 465 },
+  },
 } as const;
+
+/** Combined rating across both shops, weighted by review count. */
+export const reviewsSummary = (() => {
+  const stats = Object.values(site.reviews);
+  const reviewCount = stats.reduce((sum, s) => sum + s.reviewCount, 0);
+  const weighted = stats.reduce((sum, s) => sum + Number(s.ratingValue) * s.reviewCount, 0);
+  return { ratingValue: (weighted / reviewCount).toFixed(1), reviewCount };
+})();
 
 export const locations: Location[] = [
   {
@@ -141,20 +153,22 @@ export const locations: Location[] = [
     ],
     bookingDays: [0, 1, 2, 3, 4, 5],
     services: [
-      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$40–$50", duration: "45 min", durationMin: 45, featured: true },
-      { id: "haircut-beard", name: "Haircut and Beard Trim", nameEs: "Corte y barba", price: "$55", duration: "1 hr", durationMin: 60, featured: true },
-      { id: "beard-trim", name: "Beard Trim and Line Up", nameEs: "Barba y contorno", price: "$25", duration: "30 min", durationMin: 30 },
+      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$40–$50", duration: "35 min", durationMin: 35, featured: true },
+      { id: "fade", name: "Fade", nameEs: "Fade", price: "$40–$45", duration: "40 min", durationMin: 40, featured: true },
+      { id: "fade-beard", name: "Fade and Beard Trim", nameEs: "Fade y barba", price: "$50–$55", duration: "40 min", durationMin: 40, featured: true },
+      { id: "beard-trim", name: "Beard Trim and Line Up", nameEs: "Barba y contorno", price: "$25", duration: "20 min", durationMin: 20 },
+      { id: "line-up", name: "Line-Up", nameEs: "Contorno", price: "$20", duration: "15 min", durationMin: 15 },
       {
         id: "vip-package",
-        name: "VIP Service (Haircut, Hot Towel Service, Beard Trim)",
-        nameEs: "Servicio VIP (Corte, Toalla Caliente, Barba)",
+        name: "VIP Service (Haircut, Hot Towel, Cream Facial, Beard Trim)",
+        nameEs: "Servicio VIP (Corte, Toalla Caliente, Facial de Crema, Barba)",
         price: "$60",
-        duration: "1 hr 15 min",
-        durationMin: 75,
+        duration: "45 min",
+        durationMin: 45,
         featured: true,
         badge: "Weston Exclusive",
       },
-      { id: "kids-haircut", name: "Kids Haircut (11 years or younger)", nameEs: "Corte para niños (11 años o menos)", price: "$30", duration: "45 min", durationMin: 45 },
+      { id: "kids-haircut", name: "Kids Haircut (10 and under)", nameEs: "Corte para niños (10 años o menos)", price: "$30", duration: "35 min", durationMin: 35 },
     ],
     photo: "/media/weston-hall.jpg",
     photoAlt:
@@ -189,10 +203,12 @@ export const locations: Location[] = [
     ],
     bookingDays: [0, 1, 2, 3, 4, 5],
     services: [
-      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$35–$40", duration: "45 min", durationMin: 45, featured: true },
-      { id: "haircut-beard", name: "Haircut and Beard Trim", nameEs: "Corte y barba", price: "$50", duration: "1 hr", durationMin: 60, featured: true },
-      { id: "beard-trim", name: "Beard Trim and Line Up", nameEs: "Barba y contorno", price: "$20", duration: "25 min", durationMin: 25 },
-      { id: "kids-haircut", name: "Kids Haircut (11 years or younger)", nameEs: "Corte para niños (11 años o menos)", price: "$30", duration: "40 min", durationMin: 40 },
+      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$35–$40", duration: "35 min", durationMin: 35, featured: true },
+      { id: "fade", name: "Fade", nameEs: "Fade", price: "$35–$40", duration: "40 min", durationMin: 40, featured: true },
+      { id: "fade-beard", name: "Fade and Beard Trim", nameEs: "Fade y barba", price: "$50", duration: "40 min", durationMin: 40, featured: true },
+      { id: "beard-trim", name: "Beard Trim and Line Up", nameEs: "Barba y contorno", price: "$20", duration: "20 min", durationMin: 20 },
+      { id: "line-up", name: "Line-Up", nameEs: "Contorno", price: "$20", duration: "15 min", durationMin: 15 },
+      { id: "kids-haircut", name: "Kids Haircut (10 and under)", nameEs: "Corte para niños (10 años o menos)", price: "$30", duration: "35 min", durationMin: 35 },
     ],
     photo: "/media/keele-hall.jpg",
     photoAlt:
@@ -227,15 +243,15 @@ function fromPriceLabel(prices: string[]): string {
  */
 export const featuredServices = [
   {
-    name: "Haircut",
-    nameEs: "Corte",
+    name: "Fade",
+    nameEs: "Fade",
     from: fromPriceLabel(
       locations.flatMap((l) =>
-        l.services.filter((s) => s.id === "regular-haircut").map((s) => s.price),
+        l.services.filter((s) => s.id === "fade").map((s) => s.price),
       ),
     ),
     description:
-      "Skin, taper, drop — blended to the line. Weston $40–$50 · Keele $35–$40.",
+      "Skin, taper, drop — blended to the line. Weston $40–$45 · Keele $35–$40.",
   },
   {
     name: "VIP Service",
@@ -245,7 +261,7 @@ export const featuredServices = [
         l.services.filter((s) => s.id === "vip-package").map((s) => s.price),
       ),
     ),
-    description: "Haircut, hot towel service, and beard trim.",
+    description: "Haircut, hot towel service, cream facial, and beard trim.",
     badge: "Weston Exclusive",
   },
   {
@@ -347,6 +363,36 @@ export const faqs = [
     q: "Where is the best barbershop in North York for a fade?",
     a: "Our North York shop is at 2266 Keele Street (M6M 3Y9). Same Otro Nivel standard as Toronto — expert fades, beard work, and kids' cuts — with free parking, walk-ins every day, and hours until 9 PM most nights.",
   },
+];
+
+export type Testimonial = {
+  quote: string;
+  /** Reviewer first + last-initial, or omitted for a Google-curated highlight snippet. */
+  author?: string;
+  locationId: "weston" | "keele";
+};
+
+/**
+ * Verbatim quotes pulled from each shop's Google reviews (checked 2026-07-30).
+ * Only complete, untruncated quotes — never partial "…more" text.
+ */
+export const testimonials: Testimonial[] = [
+  { quote: "Excellent hair cut, friendly staff and artistic hair cut.", locationId: "weston" },
+  {
+    quote:
+      "It was a very good experience. Great job in the haircut. I will definitely come back I found my new barber.",
+    author: "Michael M.",
+    locationId: "weston",
+  },
+  { quote: "You can't beat the price for the quality!!", locationId: "weston" },
+  { quote: "Clean place, friendly service, 3 languages — Spanish, English, Turkish sometimes.", locationId: "keele" },
+  {
+    quote:
+      "Fantastic experience. The shop was clean and had a great vibe. They took the time to understand exactly what I wanted and gave me one of the cleanest fades I've ever had. Super professional and no long wait. Highly recommend!",
+    author: "Daniel A.",
+    locationId: "keele",
+  },
+  { quote: "Amazing haircut and beard services, definitely will come again.", locationId: "keele" },
 ];
 
 /** Shared SEO copy driven from NAP so titles/meta cannot invent locations. */
