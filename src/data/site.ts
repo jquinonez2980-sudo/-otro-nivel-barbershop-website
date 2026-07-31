@@ -153,7 +153,7 @@ export const locations: Location[] = [
     ],
     bookingDays: [0, 1, 2, 3, 4, 5],
     services: [
-      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$40–$50", duration: "35 min", durationMin: 35, featured: true },
+      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$40", duration: "35 min", durationMin: 35, featured: true },
       { id: "fade", name: "Fade", nameEs: "Fade", price: "$40–$45", duration: "40 min", durationMin: 40, featured: true },
       { id: "fade-beard", name: "Fade and Beard Trim", nameEs: "Fade y barba", price: "$50–$55", duration: "40 min", durationMin: 40, featured: true },
       { id: "beard-trim", name: "Beard Trim and Line Up", nameEs: "Barba y contorno", price: "$25", duration: "20 min", durationMin: 20 },
@@ -203,7 +203,7 @@ export const locations: Location[] = [
     ],
     bookingDays: [0, 1, 2, 3, 4, 5],
     services: [
-      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$35–$40", duration: "35 min", durationMin: 35, featured: true },
+      { id: "regular-haircut", name: "Haircut", nameEs: "Corte", price: "$35", duration: "35 min", durationMin: 35, featured: true },
       { id: "fade", name: "Fade", nameEs: "Fade", price: "$35–$40", duration: "40 min", durationMin: 40, featured: true },
       { id: "fade-beard", name: "Fade and Beard Trim", nameEs: "Fade y barba", price: "$50", duration: "40 min", durationMin: 40, featured: true },
       { id: "beard-trim", name: "Beard Trim and Line Up", nameEs: "Barba y contorno", price: "$20", duration: "20 min", durationMin: 20 },
